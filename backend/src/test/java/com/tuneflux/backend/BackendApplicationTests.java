@@ -8,12 +8,4 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 @SpringBootTest
 class BackendApplicationTests {
 
-	@Test
-			void exampleTest() {
-		boolean expected = true;
-		boolean actual = true;
-
-		assertEquals(actual, expected);
-	}
-
 }
