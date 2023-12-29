@@ -45,6 +45,7 @@
 	</dependencies>
 
 	<build>
+		<finalName>tuneflux</finalName>
 		<plugins>
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
