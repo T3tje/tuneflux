@@ -2,13 +2,9 @@ package com.tuneflux.backend.controller;
 
 import static org.mockito.Mockito.*;
 
-import com.tuneflux.backend.model.RadioStation;
 import com.tuneflux.backend.service.RadioService;
 import org.junit.jupiter.api.Test;
 import java.util.Collections;
-import java.util.List;
-
-import static org.junit.jupiter.api.Assertions.*;
 
 class RadioControllerTest {
 
