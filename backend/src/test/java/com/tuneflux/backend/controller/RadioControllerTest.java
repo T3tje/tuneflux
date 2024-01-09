@@ -28,7 +28,7 @@ class RadioControllerTest {
         // WHEN
         // Call the getRadioStations method on the RadioController
         // This will internally call the mocked RadioService
-        List<RadioStation> result = radioController.getRadioStations(10, "true", "votes", 0, "", "", "");
+        radioController.getRadioStations(10, "true", "votes", 0, "", "", "");
 
         // THEN
         // Verify that the getRadioStations method on the mock RadioService was called
