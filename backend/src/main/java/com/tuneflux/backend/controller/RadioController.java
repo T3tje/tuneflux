@@ -2,15 +2,12 @@ package com.tuneflux.backend.controller;
 
 import com.tuneflux.backend.model.RadioStation;
 import com.tuneflux.backend.service.RadioService;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.util.UriComponentsBuilder;
+
 
 import java.util.List;
 
@@ -19,10 +16,6 @@ import java.util.List;
 public class RadioController {
     private final RadioService radioService;
 
-    private static final Logger logger = LoggerFactory.getLogger(RadioController.class);
-
-    @Value("${radio.base.url}")
-    private String radioBaseUrl;
     @Autowired
     // Konstruktor für die Injektion des RadioService
     public RadioController(RadioService radioService) {
@@ -40,21 +33,8 @@ public class RadioController {
             @RequestParam(defaultValue = "") String name,            // Standard-Name ist leer
             @RequestParam(defaultValue = "") String country          // Standard-Land ist leer
     ) {
-        logger.info("radioBaseUrl: {}", radioBaseUrl);
-        // Verwende UriComponentsBuilder für die sichere und saubere URL-Zusammensetzung
-        UriComponentsBuilder builder = UriComponentsBuilder.fromUriString(radioBaseUrl + "/stations/search")
-                .queryParam("limit", limit)                        // 'limit' wird zur URL hinzugefügt
-                .queryParam("reverse", reverse)                    // 'reverse' wird zur URL hinzugefügt
-                .queryParam("order", order)                        // 'order' wird zur URL hinzugefügt
-                .queryParam("offset", offset)                      // 'offset' wird zur URL hinzugefügt
-                .queryParam("tagList", tagList)                    // 'tagList' wird zur URL hinzugefügt, wird bei leerem String ignoriert
-                .queryParam("name", name)                          // 'name' wird zur URL hinzugefügt, wird bei leerem String ignoriert
-                .queryParam("country", country);                   // 'country' wird zur URL hinzugefügt, wird bei leerem String ignoriert
 
-        // Rufe den aufgebauten URL-String ab
-        String apiUrl = builder.toUriString();
-
-        // Aufruf des RadioService mit der aufgebauten URL
-        return radioService.getRadioStations(apiUrl);
+        // Aufruf des RadioService mit der Requestparametern für den Zusammebau der Url
+        return radioService.getRadioStations(limit, reverse, order, offset, tagList, name, country);
     }
 }
