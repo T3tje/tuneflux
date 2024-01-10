@@ -3,9 +3,11 @@ package com.tuneflux.backend.controller;
 import static org.mockito.Mockito.*;
 import com.tuneflux.backend.service.RadioService;
 import org.junit.jupiter.api.Test;
+import org.springframework.boot.test.context.SpringBootTest;
 
 import java.util.Collections;
 
+@SpringBootTest
 class RadioControllerTest {
 
     // Create a mock instance of RadioService

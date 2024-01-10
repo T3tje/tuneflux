@@ -2,6 +2,7 @@ package com.tuneflux.backend.service;
 
 import com.tuneflux.backend.model.RadioStation;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.MediaType;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
 import org.springframework.web.util.UriComponentsBuilder;
@@ -33,7 +34,7 @@ public class RadioService {
     public List<RadioStation> getRadioStations(int limit, String reverse, String order, int offset, String tagList, String name, String country) {
 
         // Use UriComponentsBuilder for secure and clean URL composition
-        UriComponentsBuilder builder = UriComponentsBuilder.fromUriString(radioBaseUrl)
+        UriComponentsBuilder builder = UriComponentsBuilder.fromUriString(radioBaseUrl + "/stations/search")
                 .queryParam("limit", limit)                        // 'limit' added to the URL
                 .queryParam("reverse", reverse)                    // 'reverse' added to the URL
                 .queryParam("order", order)                        // 'order' added to the URL
@@ -49,14 +50,15 @@ public class RadioService {
         WebClient webClient = WebClient.create();
 
         // Retrieve radio station information as a list of RadioStation objects from the API URL
-        List<RadioStation> radioStations = webClient.get()
-                .uri(apiUrl)
-                .retrieve()
-                .bodyToFlux(RadioStation.class)
-                .collectList()
-                .block();
+        return Objects.requireNonNull(
+                        webClient
+                                .get()
+                                .uri(apiUrl)
+                                .accept(MediaType.APPLICATION_JSON)
+                                .retrieve()
+                                .toEntityList(RadioStation.class) // <-- Hier verwenden wir toEntityList
+                                .block())
+                .getBody();
 
-        // Ensure the list is not null (could happen in case of API issues)
-        return Objects.requireNonNull(radioStations);
     }
 }
