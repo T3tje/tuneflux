@@ -1,0 +1,10 @@
+@font-face {
+    font-family: 'promtlight';
+    src: url('../assets/Prompt-Light.ttf') format('truetype');
+}
+
+html {
+    background-color: #000000;
+    color: #ffffff;
+    font-family: "promtlight", sans-serif;
+}
