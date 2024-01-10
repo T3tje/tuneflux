@@ -1,6 +1,5 @@
 package com.tuneflux.backend.service;
 
-import com.tuneflux.backend.service.RadioService;
 import okhttp3.mockwebserver.MockResponse;
 import okhttp3.mockwebserver.MockWebServer;
 import okhttp3.mockwebserver.RecordedRequest;
@@ -11,7 +10,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.DynamicPropertyRegistry;
 import org.springframework.test.context.DynamicPropertySource;
-import org.springframework.test.context.TestPropertySource;
 
 import java.io.IOException;
 
@@ -19,7 +17,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 @SpringBootTest
-@TestPropertySource(locations = "classpath:application.properties")
+
 class RadioServiceTest {
 
     @Autowired
@@ -47,7 +45,7 @@ class RadioServiceTest {
     void radioService_getRadioStations_shouldReturnOneRadioStation_whenAskedForOne() throws InterruptedException {
         // GIVEN
         // Mock response for a single radio station
-        String mockResponse = """
+        String mockResponseString = """
         [{
             "changeuuid": "599cf698-a707-4d50-8383-e5f342fb9c08",
             "stationuuid": "78012206-1aa1-11e9-a80b-52543be04c81",
@@ -78,8 +76,11 @@ class RadioServiceTest {
             "ssl_error": 0
         }]
         """;
+        MockResponse mockResponse = new MockResponse();
+        mockResponse.setBody(mockResponseString);
+        mockResponse.setHeader("Content-Type", "application/json");
 
-        mockWebServer.enqueue(new MockResponse().setBody(mockResponse));
+        mockWebServer.enqueue(mockResponse);
 
         // WHEN
         // Call the radioService to get radio stations
@@ -93,12 +94,9 @@ class RadioServiceTest {
 
         // Verify that the request was made to the correct endpoint with the expected parameters
         RecordedRequest recordedRequest = mockWebServer.takeRequest();
-        System.out.println("recordedRequest" + recordedRequest.getSequenceNumber());
-        assertEquals("/stations/search", recordedRequest.getPath());
-        assertEquals("GET", recordedRequest.getMethod());
-        assertEquals("limit=1&reverse=true&order=votes&offset=0&tagList=&name=&country=", recordedRequest.getBody().readUtf8());
 
-        // Verify the HTTP status code by checking the response of the mockWebServer
-        assertEquals(200, recordedRequest.getSequenceNumber()); // 200 is the default status code
+        assertEquals("/stations/search?limit=1&reverse=true&order=votes&offset=0&tagList=&name=&country=", recordedRequest.getPath());
+        assertEquals("GET", recordedRequest.getMethod());
+
     }
 }
