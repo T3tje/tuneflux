@@ -1,6 +1,6 @@
 @font-face {
     font-family: 'promtlight';
-    src: url('../assets/Prompt-Light.ttf') format('truetype');
+    src: url('../../public/Prompt-Light.ttf') format('truetype');
 }
 
 html {
