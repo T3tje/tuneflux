@@ -1,29 +1,40 @@
 import '../stylesheets/App.css';
 import Header from './Header.tsx';
 import List from './List.tsx';
-import {useState, useEffect, useRef} from 'react';
-import axios from 'axios'; // Stelle sicher, dass Axios installiert ist: npm install axios
+import {useEffect, useRef, useState} from 'react';
+import axios from 'axios';
 import RadioStation from '../models/RadioStation.ts';
-
 
 function App() {
     const [mainList, setMainList] = useState<RadioStation[]>([]);
     const [isPlaying, setIsPlaying] = useState(false);
+    const [volume, setVolume] = useState(50); // Anfangslautstärke auf 50 setzen
+    const [actualStation, setActualStation] = useState<RadioStation>();
     const audioRef = useRef<HTMLAudioElement>(null);
+
 
     useEffect(() => {
         const fetchData = async () => {
             try {
                 const response = await axios.get('/api/radio');
-                // Annahme: Die API-Antwort enthält ein Array von RadioStation-Objekten
                 setMainList(response.data);
+                setActualStation(response.data[0])
             } catch (error) {
                 console.error('Fehler beim Abrufen der Daten:', error);
             }
         };
 
         fetchData();
-    }, []); // Leerer Dependency Array, um sicherzustellen, dass der Effekt nur einmal bei der Montage aufgerufen wird
+    }, []);
+
+    useEffect(() => {
+        const audioElement = audioRef.current;
+
+        if (audioElement) {
+            // Lautstärke auf einen Wert zwischen 0 und 1 umrechnen
+            audioElement.volume = volume / 100;
+        }
+    }, [volume]);
 
     const togglePlay = () => {
         const audioElement = audioRef.current;
@@ -39,18 +50,45 @@ function App() {
         }
     };
 
+    const handleVolumeChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+        setVolume(Number(event.target.value));
+    };
+
     return (
         <>
             <Header />
             <List mainList={mainList} />
 
-            <div id="audioPlayer">
-                <button id="playButton" onClick={togglePlay}>
-                    {isPlaying ? 'Pause' : 'Play'}
-                </button>
-                <audio ref={audioRef} src="http://stream.dancewave.online:8080/dance.mp3" />
-            </div>
 
+            {/* Audioplayer */}
+
+            <div id="audioPlayer">
+
+                <p>{actualStation?.name}</p>
+                <div id="audioPlayerControls">
+                    {/* Lautstärkeregler */}
+                    <div className="audioPlayerControlsContainer">
+                        <input
+                            type="range"
+                            value={volume}
+                            onChange={handleVolumeChange}
+                            min="0"
+                            max="100"
+                            step="1"
+                        />
+                    </div>
+                    <div className="audioPlayerControlsContainer">
+                <button id="mainPlayButton" onClick={togglePlay}>
+                    {isPlaying ? <span id="mainPauseSpan">II</span> : <span>▶</span>}
+                </button>
+                   </div>
+                <audio ref={audioRef} src={actualStation?.url_resolved} />
+
+                    <div className="audioPlayerControlsContainer">
+                        <button className="heartButton" id="mainPlayerHeart">♡</button>
+                    </div>
+                </div>
+            </div>
         </>
     );
 }

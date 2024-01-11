@@ -11,14 +11,9 @@ export default function RadioStationItem(props: Readonly<RadioStationItemProps>)
         <li className="stationListItem">
             <div>{props.radioStation.name}</div>
             <div className="buttonDiv">
-                {props.radioStation.name ?
-                    <button className="heartButton emptyHeart">♡</button> :
-                    <button className="heartButton fullHeart">♥</button>
-                }
+                <button className="heartButton">♡</button>
                 <button className="playButton">▶</button>
             </div>
         </li>
-
-
     )
 }
