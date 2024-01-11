@@ -14,11 +14,16 @@ function App() {
 
 
     useEffect(() => {
+        straightPlay();
+    }, [actualStation]); // Führe straightPlay aus, wenn actualStation aktualisiert wird
+
+    useEffect(() => {
         const fetchData = async () => {
             try {
                 const response = await axios.get('/api/radio');
                 setMainList(response.data);
                 setActualStation(response.data[0])
+
             } catch (error) {
                 console.error('Fehler beim Abrufen der Daten:', error);
             }
@@ -36,6 +41,8 @@ function App() {
         }
     }, [volume]);
 
+
+
     const togglePlay = () => {
         const audioElement = audioRef.current;
 
@@ -50,6 +57,17 @@ function App() {
         }
     };
 
+    const straightPlay = () => {
+        const audioElement = audioRef.current
+        if (audioElement) {
+            if (audioElement.paused) {
+                audioElement.src = actualStation ? actualStation.url_resolved : "";
+                audioElement.load()
+                audioElement.play()
+            }
+        }
+    }
+
     const handleVolumeChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         setVolume(Number(event.target.value));
     };
@@ -57,7 +75,12 @@ function App() {
     return (
         <>
             <Header />
-            <List mainList={mainList} />
+            <List
+                mainList={mainList}
+                setActualStation={setActualStation}
+                straightPlay={straightPlay}
+                setIsPlaying={setIsPlaying}
+            />
 
 
             {/* Audioplayer */}
