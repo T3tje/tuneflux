@@ -5,24 +5,30 @@ import {useEffect, useRef, useState} from 'react';
 import axios from 'axios';
 import RadioStation from '../models/RadioStation.ts';
 
+
 function App() {
     const [mainList, setMainList] = useState<RadioStation[]>([]);
+    const [listAmountNumber, setListAmountNumber] = useState<number>(11);
+    const [playerVisibilityClass, setPlayerVisibilityClass] = useState<string>("playerNotVisible")
     const [isPlaying, setIsPlaying] = useState(false);
-    const [volume, setVolume] = useState(50); // Anfangslautstärke auf 50 setzen
+    const [volume, setVolume] = useState(37); // Anfangslautstärke auf 50 setzen
     const [actualStation, setActualStation] = useState<RadioStation>();
+    const [mainPlayLoadingSpinnerVisible, setMainPlayLoadingSpinnerVisible] = useState<boolean>(false)
     const audioRef = useRef<HTMLAudioElement>(null);
+    const currentTimeRef = useRef<number | null>(null);
 
 
     useEffect(() => {
-        straightPlay();
-    }, [actualStation]); // Führe straightPlay aus, wenn actualStation aktualisiert wird
+        if (actualStation) {
+            straightPlay();
+        }
+    }, [actualStation]);
 
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const response = await axios.get('/api/radio');
+                const response = await axios.get(`/api/radio?limit=${listAmountNumber}&reverse=true&order=votes&offset=0&tagList=&name=&country=`);
                 setMainList(response.data);
-                setActualStation(response.data[0])
 
             } catch (error) {
                 console.error('Fehler beim Abrufen der Daten:', error);
@@ -30,7 +36,7 @@ function App() {
         };
 
         fetchData();
-    }, []);
+    }, [listAmountNumber]);
 
     useEffect(() => {
         const audioElement = audioRef.current;
@@ -40,8 +46,50 @@ function App() {
             audioElement.volume = volume / 100;
         }
     }, [volume]);
+    const handleTimeUpdate = (audioElement: HTMLAudioElement | null) => {
 
+        if (audioElement) {
+            const currentTime = audioElement.currentTime;
 
+            console.log('Aktuelle Zeit:', currentTime);
+
+            // Vergleiche mit der vorherigen Zeit, wenn vorhanden
+            if (currentTimeRef.current !== null) {
+                console.log('Vergleich mit vorheriger Zeit:', currentTimeRef.current);
+
+                console.log('mainPlayLoadingSpinnerVisible:', mainPlayLoadingSpinnerVisible);
+
+                if (currentTimeRef.current === currentTime) {
+
+                    if (!mainPlayLoadingSpinnerVisible) {
+                        setMainPlayLoadingSpinnerVisible(true);
+                    }
+                } else {
+                        setMainPlayLoadingSpinnerVisible(false);
+                }
+
+            }
+
+            // Speichere die aktuelle Zeit für den nächsten Vergleich
+            currentTimeRef.current = currentTime;
+        }
+    };
+
+    useEffect(() => {
+        const audioElement = audioRef.current;
+        let timeUpdateHandler: () => void;
+
+        if (audioElement) {
+            timeUpdateHandler = () => handleTimeUpdate(audioElement);
+            audioElement.addEventListener('timeupdate', timeUpdateHandler);
+        }
+
+        return () => {
+            if (audioElement && timeUpdateHandler) {
+                audioElement.removeEventListener('timeupdate', timeUpdateHandler);
+            }
+        };
+    }, [audioRef]);
 
     const togglePlay = () => {
         const audioElement = audioRef.current;
@@ -60,11 +108,16 @@ function App() {
     const straightPlay = () => {
         const audioElement = audioRef.current
         if (audioElement) {
-            if (audioElement.paused) {
                 audioElement.src = actualStation ? actualStation.url_resolved : "";
+                setPlayerVisibilityClass("playerVisible")
+            console.log("straightPlay()")
+            console.log("actual Station", actualStation)
+            setTimeout(() => {
+                if (audioElement.played)
+                setMainPlayLoadingSpinnerVisible(true);
+            }, 10);
                 audioElement.load()
                 audioElement.play()
-            }
         }
     }
 
@@ -80,12 +133,15 @@ function App() {
                 setActualStation={setActualStation}
                 straightPlay={straightPlay}
                 setIsPlaying={setIsPlaying}
+                setListAmountNumber={setListAmountNumber}
+                listAmountNumber={listAmountNumber}
+                actualStation={actualStation}
             />
 
 
             {/* Audioplayer */}
 
-            <div id="audioPlayer">
+            <div id="audioPlayer" className={playerVisibilityClass}>
 
                 <p>{actualStation?.name}</p>
                 <div id="audioPlayerControls">
@@ -101,12 +157,17 @@ function App() {
                         />
                     </div>
                     <div className="audioPlayerControlsContainer">
-                <button id="mainPlayButton" onClick={togglePlay}>
-                    {isPlaying ? <span id="mainPauseSpan">II</span> : <span>▶</span>}
-                </button>
+                        {
+                            mainPlayLoadingSpinnerVisible ?
+                                <div className="loading-spinner"></div> :
+                                <button id="mainPlayButton" onClick={togglePlay}>
+                                    {isPlaying ? <span id="mainPauseSpan">II</span> : <span>▶</span>}
+                                </button>
+                        }
                    </div>
-                <audio ref={audioRef} src={actualStation?.url_resolved} />
-
+                    <audio ref={audioRef} src={actualStation?.url_resolved}>
+                        <track kind="captions" src="" label="Captions" />
+                    </audio>
                     <div className="audioPlayerControlsContainer">
                         <button className="heartButton" id="mainPlayerHeart">♡</button>
                     </div>

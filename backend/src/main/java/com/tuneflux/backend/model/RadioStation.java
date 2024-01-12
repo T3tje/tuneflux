@@ -18,7 +18,7 @@ public record RadioStation(
         int votes,
         String lastchangetime_iso8601,
         String codec,
-        short bitrate,
+        int bitrate,
         byte hls,
         byte lastcheckok,
         String lastchecktime_iso8601,
