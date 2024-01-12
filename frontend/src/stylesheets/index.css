@@ -1,0 +1,23 @@
+@font-face {
+    font-family: 'promtlight';
+    src: url('../../public/Prompt-Light.ttf') format('truetype');
+}
+
+html {
+    background-color: #000000;
+    color: #ffffff;
+    font-family: "promtlight", sans-serif;
+    font-size: 15px;
+}
+
+#root {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-left: 10%;
+    margin-right: 10%;
+}
+
+body {
+    margin: 0;
+}
