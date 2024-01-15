@@ -10,7 +10,8 @@
 .lupenButton {
     background-color: transparent;
     border: none;
-    margin: 1px 43px 1px 0;
+    height: 35px;
+    transition: transform 0.3s;
 }
 
 .lupe {
@@ -18,16 +19,16 @@
     height: 29px;
     fill: #ffffff;
     cursor: pointer;
-    transition: transform 0.3s;
+    transform: scaleX(-1);
 }
 
-.lupe:hover {
+.lupenButton:hover {
     transform: scale(1.1);
 }
 
 @media (hover: none) {
     /* :hover-Stile deaktivieren und zu den Standardstilen zurückkehren */
-    .lupe:hover {
+    .lupenButton:hover {
         transform: scale(1);
     }
 }
@@ -41,7 +42,7 @@
     align-items: center;
     width: 60%;
     max-width: 337px;
-    height: 31px;
+    height: 35px;
     border-radius: 20px;
     transition: position 1s;
     position: relative;

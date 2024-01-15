@@ -37,7 +37,7 @@ export default function ListHeader(props: Readonly<ListHeaderProps>) {
 
     return(
         <div id="listHeaderDiv">
-            <div id="filterDiv"></div>
+            <div id="filterDiv">Filter / Sort</div>
             {
                 searchOpen ?
 
@@ -54,7 +54,7 @@ export default function ListHeader(props: Readonly<ListHeaderProps>) {
                     </div> :
                     <button className="lupenButton" onClick={toggleSeachInput}>
                         <img
-                        className="lupe" src="../../public/search_FILL0_wght400_GRAD0_opsz24.svg" alt="Search Icon"
+                            className="lupe" src="../../public/lupe.svg" alt="Search Icon"
                         />
                     </button>
             }
