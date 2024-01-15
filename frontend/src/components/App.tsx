@@ -19,24 +19,26 @@ function App() {
     const [searchInput, setSearchInput] = useState("")
 
 
+
     useEffect(() => {
         if (actualStation) {
             straightPlay();
         }
     }, [actualStation]);
 
+    const fetchData = async (actualSearchInput:string) => {
+        try {
+            const response = await axios.get(`/api/radio?limit=${listAmountNumber}&reverse=true&order=votes&offset=0&tagList=&name=${actualSearchInput}&country=`);
+            setMainList(response.data);
+
+        } catch (error) {
+            console.error('Fehler beim Abrufen der Daten:', error);
+        }
+    };
+
     useEffect(() => {
-        const fetchData = async () => {
-            try {
-                const response = await axios.get(`/api/radio?limit=${listAmountNumber}&reverse=true&order=votes&offset=0&tagList=&name=&country=`);
-                setMainList(response.data);
 
-            } catch (error) {
-                console.error('Fehler beim Abrufen der Daten:', error);
-            }
-        };
-
-        fetchData();
+        fetchData(searchInput);
     }, [listAmountNumber]);
 
     useEffect(() => {
@@ -139,6 +141,7 @@ function App() {
                 actualStation={actualStation}
                 setSearchInput={setSearchInput}
                 searchInput={searchInput}
+                fetchData={fetchData}
             />
 
 

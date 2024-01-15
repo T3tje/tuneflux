@@ -13,7 +13,8 @@ type ListProps = {
     listAmountNumber: number;
     actualStation: RadioStation | undefined;
     setSearchInput: React.Dispatch<React.SetStateAction<string>>,
-    searchInput: string
+    searchInput: string,
+    fetchData: (actualSearchInput:string) => void
 
 };
 
@@ -36,7 +37,11 @@ export default function List(props: ListProps) {
         <div className="listDiv" style={{ marginBottom: marginBottom }}>
             {props.mainList.length > 0 ? (
                 <>
-                    <ListHeader setSearchInput={props.setSearchInput} searchInput={props.searchInput}/>
+                    <ListHeader
+                        setSearchInput={props.setSearchInput}
+                        searchInput={props.searchInput}
+                        fetchData={props.fetchData}
+                    />
                     <ul>
                         {props.mainList.map((station) => (
                             <RadioStationItem

@@ -3,7 +3,8 @@ import "../stylesheets/ListHeader.css"
 
 type ListHeaderProps = {
     setSearchInput: React.Dispatch<React.SetStateAction<string>>,
-    searchInput: string
+    searchInput: string,
+    fetchData: (actualSearchInput:string) => void
 }
 
 export default function ListHeader(props:ListHeaderProps) {
@@ -21,6 +22,13 @@ export default function ListHeader(props:ListHeaderProps) {
     const handleXButton = () => {
         props.setSearchInput("")
         toggleSeachInput()
+        props.fetchData("")
+    }
+
+    const handleKeyDown = (event:React.KeyboardEvent<HTMLInputElement>) => {
+        if (event.key === "Enter") {
+            props.fetchData(props.searchInput);
+        }
     }
 
 
@@ -29,13 +37,14 @@ export default function ListHeader(props:ListHeaderProps) {
             <div id="filterDiv">Sort / Filter</div>
             {
                 searchOpen ?
-                    <div className="searchInputOuterDiv">
 
+                    <div className="searchInputOuterDiv">
                     <input
                             type="text"
                             onChange={handleSearchInput}
                             value={props.searchInput}
                             placeholder="search station"
+                            onKeyDown={handleKeyDown}
 
                         />
                         <p className="searchInputDelX" onClick={handleXButton}><span>x</span></p>
