@@ -2,6 +2,7 @@ import "../stylesheets/List.css";
 import RadioStation from "../models/RadioStation.ts";
 import RadioStationItem from "./RadioStationItem.tsx";
 import { useEffect, useState } from "react";
+import ListHeader from "./ListHeader.tsx";
 
 type ListProps = {
     mainList: RadioStation[];
@@ -11,10 +12,14 @@ type ListProps = {
     setListAmountNumber: React.Dispatch<React.SetStateAction<number>>;
     listAmountNumber: number;
     actualStation: RadioStation | undefined;
+    setSearchInput: React.Dispatch<React.SetStateAction<string>>,
+    searchInput: string
+
 };
 
-export default function List(props: Readonly<ListProps>) {
+export default function List(props: ListProps) {
     const [marginBottom, setMarginBottom] = useState<string>("");
+
 
     useEffect(() => {
         if (props.actualStation) {
@@ -31,6 +36,7 @@ export default function List(props: Readonly<ListProps>) {
         <div className="listDiv" style={{ marginBottom: marginBottom }}>
             {props.mainList.length > 0 ? (
                 <>
+                    <ListHeader setSearchInput={props.setSearchInput} searchInput={props.searchInput}/>
                     <ul>
                         {props.mainList.map((station) => (
                             <RadioStationItem

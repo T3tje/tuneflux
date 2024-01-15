@@ -16,6 +16,7 @@ function App() {
     const [mainPlayLoadingSpinnerVisible, setMainPlayLoadingSpinnerVisible] = useState<boolean>(false)
     const audioRef = useRef<HTMLAudioElement>(null);
     const currentTimeRef = useRef<number | null>(null);
+    const [searchInput, setSearchInput] = useState("")
 
 
     useEffect(() => {
@@ -127,7 +128,7 @@ function App() {
 
     return (
         <>
-            <Header />
+            <Header/>
             <List
                 mainList={mainList}
                 setActualStation={setActualStation}
@@ -136,6 +137,8 @@ function App() {
                 setListAmountNumber={setListAmountNumber}
                 listAmountNumber={listAmountNumber}
                 actualStation={actualStation}
+                setSearchInput={setSearchInput}
+                searchInput={searchInput}
             />
 
 
