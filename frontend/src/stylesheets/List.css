@@ -32,6 +32,12 @@ ul,ol {
     color: #636363;
 }
 
+@media (hover: none) {
+    /* :hover-Stile deaktivieren */
+    .downArrowButton:hover {
+        color: #ffffff;
+    }
+}
 .loading-spinner {
     width: 48px;
     height: 48px;
@@ -41,13 +47,16 @@ ul,ol {
     animation: spin 1s linear infinite; /* Animationseigenschaften */
 }
 
-.middleLoadingSpinner {
-    position: fixed !important;
-    top: 50% !important;
-    left: 50% !important;
-    transform: translate(-50%, -50%) !important; /* Zentrierung */
-}
+.wholeScreenloader {
+    display: flex;
+    position: fixed;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 80%;
+    width: 100%;
 
+}
 
 @keyframes spin {
     0% {
