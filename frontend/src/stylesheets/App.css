@@ -1,6 +1,6 @@
 #audioPlayer {
     position:fixed;
-    background-color: #000000;
+    background-image: linear-gradient(#000000, #141414);
     border-top: #363636 solid 1px;
     width: 100vw;
     height: 137px;
@@ -27,17 +27,22 @@
 }
 
 #mainPlayButton {
-    border: #363636 solid 1px;
+    border: #636363 solid 1px;
     padding: 10px 10px 10px 13px;
-    font-size: 21px;
+    font-size: 20px;
     background-color: transparent;
     color: white;
     cursor: pointer;
     box-shadow: none;
     width: 50px;
     height: 50px;
+    line-height: 50px;
     border-radius: 25px;
     transition: border 0.3s;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
 }
 
 #audioPlayerControls {
@@ -53,6 +58,15 @@
 #mainPlayButton:hover {
     border-color: #ffffff;
 }
+
+/* Media Query für Geräte mit Touch-Unterstützung */
+@media (hover: none) {
+    /* :hover-Stile deaktivieren und zu den Standardstilen zurückkehren */
+    #mainPlayButton:hover {
+        border-color: #636363;
+    }
+}
+
 
 #mainPlayerTitleDiv {
     display:flex;

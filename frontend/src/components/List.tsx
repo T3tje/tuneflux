@@ -46,7 +46,9 @@ export default function List(props: Readonly<ListProps>) {
                     </button>
                 </>
             ) : (
-                <div className="loading-spinner middleLoadingSpinner"></div>
+                <div className="wholeScreenloader">
+                    <div className="loading-spinner middleLoadingSpinner"></div>
+                </div>
             )}
         </div>
     );

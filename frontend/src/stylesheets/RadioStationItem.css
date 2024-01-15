@@ -34,6 +34,13 @@ li:hover {
     color:white;
 }
 
+@media (hover: none) {
+    /* :hover-Stile deaktivieren */
+    .heartButton:hover {
+        color: #636363;
+    }
+}
+
 .playButton {
     font-size: 21px;
     background-color: transparent;
