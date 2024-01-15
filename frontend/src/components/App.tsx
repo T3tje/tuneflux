@@ -14,8 +14,12 @@ function App() {
     const [volume, setVolume] = useState(37); // Anfangslautstärke auf 50 setzen
     const [actualStation, setActualStation] = useState<RadioStation>();
     const [mainPlayLoadingSpinnerVisible, setMainPlayLoadingSpinnerVisible] = useState<boolean>(false)
+    const [searchInput, setSearchInput] = useState("")
+    const [searchDone, setSearchDone] = useState<boolean>(false)
     const audioRef = useRef<HTMLAudioElement>(null);
     const currentTimeRef = useRef<number | null>(null);
+
+
 
 
     useEffect(() => {
@@ -24,19 +28,24 @@ function App() {
         }
     }, [actualStation]);
 
-    useEffect(() => {
-        const fetchData = async () => {
-            try {
-                const response = await axios.get(`/api/radio?limit=${listAmountNumber}&reverse=true&order=votes&offset=0&tagList=&name=&country=`);
+
+    const fetchData = async (actualSearchInput:string, numberOfStations:number) => {
+        try {
+            const response = await axios.get(`/api/radio?limit=${numberOfStations}&reverse=true&order=votes&offset=0&tagList=&name=${actualSearchInput}&country=`);
+            if (response.status === 200) {
                 setMainList(response.data);
-
-            } catch (error) {
-                console.error('Fehler beim Abrufen der Daten:', error);
+                setSearchDone(true);
             }
-        };
 
-        fetchData();
-    }, [listAmountNumber]);
+
+        } catch (error) {
+            console.error('Fehler beim Abrufen der Daten:', error);
+        }
+    };
+
+    useEffect(() => {
+        fetchData("", 11)
+    }, []);
 
     useEffect(() => {
         const audioElement = audioRef.current;
@@ -46,6 +55,7 @@ function App() {
             audioElement.volume = volume / 100;
         }
     }, [volume]);
+
     const handleTimeUpdate = (audioElement: HTMLAudioElement | null) => {
 
         if (audioElement) {
@@ -127,15 +137,18 @@ function App() {
 
     return (
         <>
-            <Header />
+            <Header/>
             <List
                 mainList={mainList}
                 setActualStation={setActualStation}
-                straightPlay={straightPlay}
                 setIsPlaying={setIsPlaying}
                 setListAmountNumber={setListAmountNumber}
                 listAmountNumber={listAmountNumber}
                 actualStation={actualStation}
+                setSearchInput={setSearchInput}
+                searchInput={searchInput}
+                fetchData={fetchData}
+                searchDone={searchDone}
             />
 
 

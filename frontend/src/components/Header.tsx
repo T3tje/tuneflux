@@ -1,9 +1,10 @@
-import "../stylesheets/Header.css"
+
+import "../stylesheets/Header.css";
+
 export default function Header() {
-    return(
+    return (
         <div id="headerDiv">
             <p id="logo">tuneflux</p>
         </div>
-
-    )
+    );
 }
