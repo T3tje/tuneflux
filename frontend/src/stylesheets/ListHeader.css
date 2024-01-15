@@ -7,10 +7,15 @@
     margin: 13px 0;
 }
 
+.lupenButton {
+    background-color: transparent;
+    border: none;
+    margin: 1px 43px 1px 0;
+}
+
 .lupe {
     width: 29px;
     height: 29px;
-    margin: 1px 43px 1px 0;
     fill: #ffffff;
     cursor: pointer;
     transition: transform 0.3s;
@@ -71,11 +76,11 @@
 .searchInputDelX {
     color: #363636;
     margin: 0 14px 0 0;
-
+    background-color: transparent;
     border: none;
     height: 100%;
     position: relative;
-    bottom: 6px;
+    bottom: 3px;
     cursor: pointer;
 }
 
