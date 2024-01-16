@@ -54,7 +54,7 @@ export default function ListHeader(props: Readonly<ListHeaderProps>) {
                     </div> :
                     <button className="lupenButton" onClick={toggleSeachInput}>
                         <img
-                            className="lupe" src="../../public/lupe.svg" alt="Search Icon"
+                            className="lupe" src="../../public/lupeNeu.png" alt="Search Icon"
                         />
                     </button>
             }

@@ -15,8 +15,8 @@
 }
 
 .lupe {
-    width: 29px;
-    height: 29px;
+    width: 31px;
+    height: 31px;
     fill: #ffffff;
     cursor: pointer;
     transform: scaleX(-1);
