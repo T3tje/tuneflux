@@ -1,4 +1,4 @@
-import {useState} from "react";
+import {useEffect, useRef, useState} from "react";
 import "../stylesheets/ListHeader.css"
 
 type ListHeaderProps = {
@@ -10,7 +10,14 @@ type ListHeaderProps = {
 
 export default function ListHeader(props: Readonly<ListHeaderProps>) {
     const [searchOpen, setSearchOpen] = useState(false)
+    const inputRef = useRef<HTMLInputElement | null>(null);
 
+
+    useEffect(() => {
+        if (searchOpen && inputRef.current) {
+            inputRef.current.focus();
+        }
+    }, [searchOpen]);
 
     const toggleSeachInput = () => {
         setSearchOpen((searchOpen) => !searchOpen)
@@ -48,6 +55,7 @@ export default function ListHeader(props: Readonly<ListHeaderProps>) {
                             value={props.searchInput}
                             placeholder="search station"
                             onKeyDown={handleKeyDown}
+                            ref={inputRef}
 
                         />
                         <button className="searchInputDelX" onClick={handleXButton}><span>x</span></button>
