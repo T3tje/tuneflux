@@ -1,5 +1,5 @@
 type AppUser = {
-    username: string,
+    name: string,
     id: string
 }
 

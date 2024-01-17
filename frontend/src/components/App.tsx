@@ -48,8 +48,16 @@ function App() {
             />
             {/* Footer */}
             <div id="footer">
-                <p>{appUser?.id}</p>
+            { appUser ? (
+                <>
+                    <p>{appUser?.name}</p>
+                    <button onClick={() => functions.logout(setAppUser)}>logout</button>
+                </>
+            ):
+                <button onClick={functions.login}>login</button>
+            }
             </div>
+
         </>
     );
 }

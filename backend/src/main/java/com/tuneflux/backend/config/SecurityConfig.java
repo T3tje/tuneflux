@@ -1,4 +1,4 @@
-package com.tuneflux.backend;
+package com.tuneflux.backend.config;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
@@ -22,7 +22,8 @@ public class SecurityConfig {
         http
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(a -> a
-                        .requestMatchers("/api/radio/favorites/**").authenticated()
+                        //.requestMatchers("/api/me").authenticated()
+                        //.requestMatchers("/login").permitAll()
                         .anyRequest().permitAll()
                 )
                 .sessionManagement(s -> s.sessionCreationPolicy(SessionCreationPolicy.ALWAYS))

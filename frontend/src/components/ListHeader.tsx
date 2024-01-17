@@ -68,7 +68,7 @@ export default function ListHeader(props: Readonly<ListHeaderProps>) {
                         type="text"
                         onChange={handleSearchInput}
                         value={props.searchInput}
-                        placeholder="search station"
+                        placeholder="Search station by name..."
                         onKeyDown={handleKeyDown}
                         ref={inputRef}
                     />

@@ -38,11 +38,11 @@
     display: flex;
     justify-content: space-between;
     flex-direction: row;
-    padding: 0 0 0 10px;
+    padding: 0 0 0 13px;
     align-items: center;
     width: 60%;
-    max-width: 337px;
-    height: 35px;
+    max-width: 300px;
+    height: 30px;
     border-radius: 20px;
     transition: position 1s;
     position: relative;
@@ -71,17 +71,24 @@
 .searchInputOuterDiv input:focus {
     outline: none;
     border: none;
+}
 
+.searchInputOuterDiv input::placeholder {
+    color: #b6b6b6;
+    font-size: 13px;
+    position: relative;
+    bottom: 1px;
+    font-weight: 100;
 }
 
 .searchInputDelX {
-    color: #363636;
+    color: #000000;
     margin: 0 14px 0 0;
     background-color: transparent;
     border: none;
     height: 100%;
     position: relative;
-    bottom: 3px;
+    bottom: 2px;
     cursor: pointer;
 }
 
@@ -98,7 +105,7 @@
 
 
 .searchInputDelX span{
-    font-size: 26px;
+    font-size: 22px;
     padding: 0;
 
 }

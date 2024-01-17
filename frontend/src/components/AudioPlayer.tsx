@@ -102,6 +102,15 @@ export default function AudioPlayer(props:AudioPlayerProps) {
         setVolume(Number(event.target.value));
     };
 
+    useEffect(() => {
+        const audioElement = audioRef.current;
+
+        if (audioElement) {
+            // Lautstärke auf einen Wert zwischen 0 und 1 umrechnen
+            audioElement.volume = volume / 100;
+        }
+    }, [volume]);
+
     // Rendern der AudioPlayer-Komponente
     return(
         <div id="audioPlayer" className={props.playerVisibilityClass}>
