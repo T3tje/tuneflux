@@ -6,9 +6,11 @@
 import '../stylesheets/App.css';
 import Header from './Header.tsx';
 import List from './List.tsx';
-import { useState } from 'react';
+import {useEffect, useState} from 'react';
 import RadioStation from '../models/RadioStation.ts';
 import AudioPlayer from "./AudioPlayer.tsx";
+import AppUser from "../models/AppUser.ts";
+import { functions } from "../assets/functions.ts"
 
 // Hauptfunktion für die App-Komponente
 function App() {
@@ -17,6 +19,11 @@ function App() {
     const [isPlaying, setIsPlaying] = useState(false);
     const [actualStation, setActualStation] = useState<RadioStation>();
     const [mainPlayLoadingSpinnerVisible, setMainPlayLoadingSpinnerVisible] = useState<boolean>(false);
+    const [appUser, setAppUser] = useState<AppUser | undefined | null>(undefined)
+
+    useEffect(() => {
+        functions.getMe(setAppUser);
+    }, [])
 
     // Rendern der App-Komponente
     return (
@@ -39,6 +46,10 @@ function App() {
                 setIsPlaying={setIsPlaying}
                 playerVisibilityClass={playerVisibilityClass}
             />
+            {/* Footer */}
+            <div id="footer">
+                <p>{appUser?.id}</p>
+            </div>
         </>
     );
 }

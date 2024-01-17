@@ -1,5 +1,7 @@
 import RadioStation from '../models/RadioStation.ts';
 import axios from 'axios';
+import {SetStateAction} from "react";
+import AppUser from "../models/AppUser.ts";
 
 const fetchData = async (actualSearchInput: string, numberOfStations: number, setMainList: React.Dispatch<React.SetStateAction<RadioStation[]>>, setSearchDone: React.Dispatch<React.SetStateAction<boolean>>) => {
     try {
@@ -13,7 +15,14 @@ const fetchData = async (actualSearchInput: string, numberOfStations: number, se
     }
 };
 
+const getMe = async(setAppUser:React.Dispatch<SetStateAction<AppUser | undefined | null>>) => {
+    axios.get("/api/me")
+        .then(r => setAppUser(r.data))
+        .catch(() => setAppUser(null))
+}
+
 
 export const functions = {
-    fetchData
+    fetchData,
+    getMe
 }

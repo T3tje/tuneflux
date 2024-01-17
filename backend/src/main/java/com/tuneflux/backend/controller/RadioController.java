@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/radio")
+@RequestMapping("/api")
 public class RadioController {
     private final RadioService radioService;
 
@@ -22,7 +22,7 @@ public class RadioController {
         this.radioService = radioService;
     }
 
-    @GetMapping
+    @GetMapping("/radio")
     public List<RadioStation> getRadioStations(
             // Standardwerte werden durch 'defaultValue' festgelegt, um sicherzustellen, dass Parameter nicht null sind
             @RequestParam(defaultValue = "10") int limit,            // Standard-Limit ist 10
@@ -34,7 +34,7 @@ public class RadioController {
             @RequestParam(defaultValue = "") String country          // Standard-Land ist leer
     ) {
 
-        // Aufruf des RadioService mit der Requestparametern für den Zusammebau der Url
+        // Aufruf des RadioService mit der Requestparametern für den Zusammenbau der Url
         return radioService.getRadioStations(limit, reverse, order, offset, tagList, name, country);
     }
 }
