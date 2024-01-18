@@ -20,6 +20,13 @@ function App() {
     const [actualStation, setActualStation] = useState<RadioStation>();
     const [mainPlayLoadingSpinnerVisible, setMainPlayLoadingSpinnerVisible] = useState<boolean>(false);
     const [appUser, setAppUser] = useState<AppUser | undefined | null>(undefined)
+    const [mainList, setMainList] = useState<RadioStation[]>([]);
+    const [favList, setFavList] = useState<RadioStation[]>([]);
+    const [marginListBottom, setMarginListBottom] = useState<string>("");
+    const [searchMainListDone, setSearchMainListDone] = useState<boolean>(false);
+    const [searchFavListDone, setSearchFavListDone] = useState<boolean>(false);
+    const [listAmountNumber, setListAmountNumber] = useState<number>(11);
+    const [searchMainInput, setSearchMainInput] = useState("");
 
     useEffect(() => {
         functions.getMe(setAppUser);
@@ -35,6 +42,17 @@ function App() {
                 setActualStation={setActualStation}
                 setIsPlaying={setIsPlaying}
                 actualStation={actualStation}
+                list={mainList}
+                setList={setMainList}
+                marginListBottom={marginListBottom}
+                setMarginListBottom={setMarginListBottom}
+                searchDone={searchMainListDone}
+                setSearchDone={setSearchMainListDone}
+                listAmountNumber={listAmountNumber}
+                setListAmountNumber={setListAmountNumber}
+                searchInput={searchMainInput}
+                setSearchInput={setSearchMainInput}
+                fetchData={functions.fetchData("",listAmountNumber,setMainList,setSearchMainListDone)}
             />
             {/* AudioPlayer-Komponente für die Steuerung des Radioplayers */}
             <AudioPlayer
