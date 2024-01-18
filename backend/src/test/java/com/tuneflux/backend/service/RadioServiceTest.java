@@ -95,7 +95,7 @@ class RadioServiceTest {
         // Verify that the request was made to the correct endpoint with the expected parameters
         RecordedRequest recordedRequest = mockWebServer.takeRequest();
 
-        assertEquals("/stations/search?limit=1&reverse=true&order=votes&offset=0&tagList=&name=&country=", recordedRequest.getPath());
+        assertEquals("/stations/search?limit=1&reverse=true&order=votes&offset=0&tagList=&name=&country=&hidebroken=true", recordedRequest.getPath());
         assertEquals("GET", recordedRequest.getMethod());
 
     }

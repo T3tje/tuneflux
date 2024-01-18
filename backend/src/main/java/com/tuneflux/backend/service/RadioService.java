@@ -35,13 +35,14 @@ public class RadioService {
 
         // Use UriComponentsBuilder for secure and clean URL composition
         UriComponentsBuilder builder = UriComponentsBuilder.fromUriString(radioBaseUrl + "/stations/search")
-                .queryParam("limit", limit)                        // 'limit' added to the URL
-                .queryParam("reverse", reverse)                    // 'reverse' added to the URL
-                .queryParam("order", order)                        // 'order' added to the URL
-                .queryParam("offset", offset)                      // 'offset' added to the URL
-                .queryParam("tagList", tagList)                    // 'tagList' added to the URL
-                .queryParam("name", name)                          // 'name' added to the URL
-                .queryParam("country", country);                   // 'country' added to the URL
+                .queryParam("limit", limit)                         // 'limit' added to the URL
+                .queryParam("reverse", reverse)                     // 'reverse' added to the URL
+                .queryParam("order", order)                         // 'order' added to the URL
+                .queryParam("offset", offset)                       // 'offset' added to the URL
+                .queryParam("tagList", tagList)                     // 'tagList' added to the URL
+                .queryParam("name", name)                           // 'name' added to the URL
+                .queryParam("country", country)                     // 'country' added to the URL
+                .queryParam("hidebroken", true);               // 'hidebroken' added to the URL
 
         // Retrieve the constructed URL string
         String apiUrl = builder.toUriString();

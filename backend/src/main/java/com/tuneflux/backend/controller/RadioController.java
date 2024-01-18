@@ -32,7 +32,7 @@ public class RadioController {
             @RequestParam(defaultValue = "0") int offset,            // Standard-Offset ist 0
             @RequestParam(defaultValue = "") String tagList,         // Standard-Tag-Liste ist leer
             @RequestParam(defaultValue = "") String name,            // Standard-Name ist leer
-            @RequestParam(defaultValue = "") String country          // Standard-Land ist leer
+            @RequestParam(defaultValue = "") String country         // Standard-Land ist leer
     ) {
 
         // Aufruf des RadioService mit der Requestparametern für den Zusammenbau der Url
