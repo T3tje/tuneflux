@@ -3,12 +3,12 @@
 // ----------------------------------
 
 // Import von Modulen und Komponenten
-import React, {SetStateAction, useEffect, useState} from "react";
+import React, {SetStateAction, useEffect} from "react";
 import ListHeader from "./ListHeader.tsx";
 import RadioStationItem from "./RadioStationItem.tsx";
-import { functions } from "../assets/functions.ts";
 import RadioStation from "../models/RadioStation.ts";
 import "../stylesheets/List.css";
+import {useLocation} from "react-router-dom";
 
 // Typendefinition für die Props der List-Komponente
 type ListProps = {
@@ -25,16 +25,25 @@ type ListProps = {
     setListAmountNumber: React.Dispatch<SetStateAction<number>>,
     searchInput: string,
     setSearchInput: React.Dispatch<SetStateAction<string>>,
-    fetchData: (string,number,RadioStation[],boolean) => void
-
+    fetchData: (
+        actualSearchInput: string,
+        numberOfStations: number,
+        setList: React.Dispatch<SetStateAction<RadioStation[]>>,
+        setSearchDone: React.Dispatch<React.SetStateAction<boolean>>
+    ) => Promise<void>;
+    listTopic:string
 };
 
 // Hauptfunktion für die List-Komponente
 export default function List(props: Readonly<ListProps>) {
+    const location = useLocation()
+
+
 
     // Effekt für das Laden der Radiostationen beim Start
     useEffect(() => {
-        functions.fetchData("", 11, props.setList, props.setSearchDone)
+        props.fetchData("", 20, props.setList, props.setSearchDone)
+        console.log(location.pathname)
     }, []);
 
     // Effekt für die Anpassung des Seitenabstands, wenn eine Radiostation ausgewählt ist
@@ -46,11 +55,12 @@ export default function List(props: Readonly<ListProps>) {
 
     // Funktion zum Erhöhen der Anzahl der angezeigten Radiostationen
     const increaseList = () => {
-        const increaseBy = 11;
+        const increaseBy = 20;
         const newNumberOfStations = props.listAmountNumber + increaseBy;
         props.setListAmountNumber(newNumberOfStations);
-        functions.fetchData(searchInput, newNumberOfStations, props.setList, props.setSearchDone)
+        props.fetchData(props.searchInput, newNumberOfStations, props.setList, props.setSearchDone)
     };
+
 
     // Rendern der List-Komponente
     return (
@@ -59,8 +69,8 @@ export default function List(props: Readonly<ListProps>) {
                 <>
                     {/* Header-Komponente für die Suche und Filterung der Radiostationen */}
                     <ListHeader
-                        setSearchInput={setSearchInput}
-                        searchInput={searchInput}
+                        setSearchInput={props.setSearchInput}
+                        searchInput={props.searchInput}
                         setListAmountNumber={props.setListAmountNumber}
                         setMainList={props.setList}
                         setSearchDone={props.setSearchDone}
@@ -73,6 +83,7 @@ export default function List(props: Readonly<ListProps>) {
                     ) : (
                         // Anzeige der Radiostationen und Schaltfläche zum Laden weiterer Stationen
                         <>
+                            <p className="listTopic">{props.listTopic}</p>
                             <ul>
                                 {props.list.map((station) => (
                                     <RadioStationItem
@@ -80,6 +91,7 @@ export default function List(props: Readonly<ListProps>) {
                                         radioStation={station}
                                         setActualStation={props.setActualStation}
                                         setIsPlaying={props.setIsPlaying}
+                                        location={location.pathname}
                                     />
                                 ))}
                             </ul>

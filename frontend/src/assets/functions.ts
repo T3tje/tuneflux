@@ -3,6 +3,7 @@ import axios from 'axios';
 import React, {SetStateAction} from "react";
 import AppUser from "../models/AppUser.ts";
 
+// ============= FETCH MAIN LIST DATA / API ABFRAGE ============= //
 const fetchData = async (actualSearchInput: string, numberOfStations: number, setMainList: React.Dispatch<React.SetStateAction<RadioStation[]>>, setSearchDone: React.Dispatch<React.SetStateAction<boolean>>) => {
     try {
         const response = await axios.get(`/api/radio?limit=${numberOfStations}&reverse=true&order=votes&offset=0&tagList=&name=${actualSearchInput}&country=`);
@@ -15,6 +16,23 @@ const fetchData = async (actualSearchInput: string, numberOfStations: number, se
     }
 };
 
+// ============= TOGGLE RADIOSTATION TO OR OUT FAVORIT LIST ============= //
+const toggleFavorite = async (location:string, radioStation:RadioStation):Promise<void> => {
+    if (location === "Favorites") {
+        console.log("remove Item")              // NOCH ZU IMPLEMENTIEREN - DELETE REQUEST
+    }
+    if (location === "/") {
+        try {
+            const response = await axios.post("/api/radio", radioStation);
+            console.log("RadioStation added to favorites:", response.data);
+        } catch (error) {
+            console.error("Error adding RadioStation to favorites:", error);
+        }
+    }
+}
+
+
+// ============= AUTHENTICATION TEST REQUEST ============= //
 const getMe = (setAppUser:React.Dispatch<SetStateAction<AppUser | undefined | null>>) => {
     axios.get("/api/me")
         .then(response => {
@@ -41,8 +59,11 @@ const logout = (setAppUser:React.Dispatch<SetStateAction<AppUser | undefined | n
     window.open(host + "/logout", "_self")
 }
 
+
+// ============= EXPORT ============= //
 export const functions = {
     fetchData,
+    toggleFavorite,
     getMe,
     login,
     logout

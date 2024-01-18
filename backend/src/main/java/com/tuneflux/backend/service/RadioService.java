@@ -1,6 +1,8 @@
 package com.tuneflux.backend.service;
 
 import com.tuneflux.backend.model.RadioStation;
+import com.tuneflux.backend.repository.RadioRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Service;
@@ -12,6 +14,15 @@ import java.util.Objects;
 
 @Service
 public class RadioService {
+
+    // Mongo Repository
+    private final RadioRepository radioRepository;
+
+    // Constructor für MongoRepository
+    @Autowired
+    public RadioService(RadioRepository radioRepository) {
+        this.radioRepository = radioRepository;
+    }
 
     /**
      * Retrieves radio station information from the specified API URL.
@@ -31,6 +42,7 @@ public class RadioService {
     @Value("${radio.base.url}")
     private String radioBaseUrl;
 
+    //Function for Radio Api Request
     public List<RadioStation> getRadioStations(int limit, String reverse, String order, int offset, String tagList, String name, String country) {
 
         // Use UriComponentsBuilder for secure and clean URL composition
@@ -61,5 +73,10 @@ public class RadioService {
                                 .block())
                 .getBody();
 
+    }
+
+    // Function for adding a radioStation to MongoDB
+    public RadioStation addRadioStationToFavorites(RadioStation radiostation) {
+        return radioRepository.save(radiostation);
     }
 }

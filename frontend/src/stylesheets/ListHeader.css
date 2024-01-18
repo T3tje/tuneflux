@@ -44,10 +44,15 @@
     max-width: 300px;
     height: 30px;
     border-radius: 20px;
-    transition: position 1s;
+    transition: position 1s, border 0.5s;
     position: relative;
     opacity: 0;
     animation: fadeInInput 0.5s forwards;
+    border: solid 2px #000000;
+}
+
+.searchInputOuterDiv:hover {
+    border: solid 2px darkorange;
 }
 
 @keyframes fadeInInput {
@@ -93,7 +98,7 @@
 }
 
 .searchInputDelX:hover {
-    color: #636363;
+    color: #FF8C00FF;
 }
 
 @media (hover: none) {
@@ -110,23 +115,27 @@
 
 }
 
-#filterDiv {
+.filterDiv {
     cursor: pointer;
     color: #636363;
     font-size: 16px;
 }
 
-#filterDiv:hover {
-    color: #ffffff;
+.filterDiv:hover {
+    color: #FF8C00FF;
 
 }
 
 /* Media Query für Geräte mit Touch-Unterstützung */
 @media (hover: none) {
     /* :hover-Stile deaktivieren und zu den Standardstilen zurückkehren */
-    #filterDiv:hover {
+    .filterDiv:hover {
         color: #636363;
     }
+}
+
+.filterDiv span {
+    color: #ffffff;
 }
 
 

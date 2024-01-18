@@ -43,16 +43,15 @@ export default function ListHeader(props: Readonly<ListHeaderProps>) {
     // Funktion für den X-Button zum Löschen der Suchanfrage
     const handleXButton = () => {
         props.setSearchInput("");
-        //toggleSeachInput();
-        functions.fetchData("", 11, props.setMainList, props.setSearchDone);
+        functions.fetchData("", 20, props.setMainList, props.setSearchDone);
         props.setListAmountNumber(11);
     }
 
     // Funktion für die Behandlung des Tastendrucks im Suchfeld
     const handleKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
         if (event.key === "Enter") {
-            functions.fetchData(props.searchInput, 11, props.setMainList, props.setSearchDone);
-            props.setListAmountNumber(11);
+            functions.fetchData(props.searchInput, 20, props.setMainList, props.setSearchDone);
+            props.setListAmountNumber(20);
         }
     }
 
@@ -60,8 +59,8 @@ export default function ListHeader(props: Readonly<ListHeaderProps>) {
     return (
         <div id="listHeaderDiv">
             {/* Text für den Filter- und Sortierbereich */}
-            <div id="filterDiv">Filter / Sort</div>
-            {/* Bedingte Anzeige des Suchfelds oder Lupenbuttons */}
+            <div className="filterDiv">Filter <span>/</span> Sort</div>
+            {/* Bedingte Anzeige des Suchfelds oder Lupen buttons */}
             {searchOpen ?
                 <div className="searchInputOuterDiv">
                     <input

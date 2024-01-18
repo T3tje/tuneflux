@@ -3,10 +3,7 @@ package com.tuneflux.backend.controller;
 import com.tuneflux.backend.model.RadioStation;
 import com.tuneflux.backend.service.RadioService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 
 import java.util.List;
@@ -37,5 +34,10 @@ public class RadioController {
 
         // Aufruf des RadioService mit der Requestparametern für den Zusammenbau der Url
         return radioService.getRadioStations(limit, reverse, order, offset, tagList, name, country);
+    }
+
+    @PostMapping("/radio")
+    public RadioStation addRadioStationToFavorites(@RequestBody RadioStation radioStation) {
+        return radioService.addRadioStationToFavorites(radioStation);
     }
 }

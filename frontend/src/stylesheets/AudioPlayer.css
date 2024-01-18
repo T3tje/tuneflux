@@ -58,6 +58,7 @@
 
 #mainPlayButton:hover {
     border-color: #ffffff;
+    color: darkorange;
 }
 
 /* Media Query für Geräte mit Touch-Unterstützung */
@@ -65,6 +66,7 @@
     /* :hover-Stile deaktivieren und zu den Standardstilen zurückkehren */
     #mainPlayButton:hover {
         border-color: #636363;
+        color: #ffffff;
     }
 }
 

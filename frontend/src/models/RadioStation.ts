@@ -1,7 +1,31 @@
 type RadioStation = {
-    name:string,
-    stationuuid:string
-    url_resolved:string
-}
+    changeuuid: string,
+    stationuuid: string,
+    serveruuid: string,
+    name: string,
+    url: string,
+    url_resolved: string,
+    homepage: string,
+    favicon: string,
+    tags: string,
+    country: string,
+    countrycode: string,
+    state: string,
+    language: string,
+    languagecodes: string,
+    votes: number,
+    lastchangetime_iso8601: string,
+    codec: string,
+    bitrate: number,
+    hls: number,
+    lastcheckok: number,
+    lastchecktime_iso8601: string,
+    lastcheckoktime_iso8601: string,
+    lastlocalchecktime_iso8601: string,
+    clicktimestamp_iso8601: string,
+    clickcount: number,
+    clicktrend: number,
+    ssl_error: number
+};
 
-export default RadioStation
+export default RadioStation;

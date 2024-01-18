@@ -22,7 +22,7 @@ type AudioPlayerProps = {
 // Hauptfunktion für die AudioPlayer-Komponente
 export default function AudioPlayer(props:AudioPlayerProps) {
     // Zustände für die AudioPlayer-Komponente
-    const [volume, setVolume] = useState(37); // Anfangslautstärke auf 50 setzen
+    const [volume, setVolume] = useState(30); // Anfangslautstärke auf 50 setzen
     const audioRef = useRef<HTMLAudioElement>(null);
     const currentTimeRef = useRef<number | null>(null);
 
