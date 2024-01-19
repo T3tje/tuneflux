@@ -2,12 +2,14 @@ import RadioStation from '../models/RadioStation.ts';
 import axios from 'axios';
 import React, {SetStateAction} from "react";
 import AppUser from "../models/AppUser.ts";
+import PostDTO from "../models/PostDTO.ts";
 
 // ============= FETCH MAIN LIST DATA / API ABFRAGE ============= //
 const fetchData = async (actualSearchInput: string, numberOfStations: number, setMainList: React.Dispatch<React.SetStateAction<RadioStation[]>>, setSearchDone: React.Dispatch<React.SetStateAction<boolean>>) => {
     try {
         const response = await axios.get(`/api/radio?limit=${numberOfStations}&reverse=true&order=votes&offset=0&tagList=&name=${actualSearchInput}&country=`);
         if (response.status === 200) {
+
             setMainList(response.data);
             setSearchDone(true);
         }
@@ -17,19 +19,53 @@ const fetchData = async (actualSearchInput: string, numberOfStations: number, se
 };
 
 // ============= TOGGLE RADIOSTATION TO OR OUT FAVORIT LIST ============= //
-const toggleFavorite = async (location:string, radioStation:RadioStation):Promise<void> => {
-    if (location === "Favorites") {
-        console.log("remove Item")              // NOCH ZU IMPLEMENTIEREN - DELETE REQUEST
+const toggleFavorite = async (
+    radioStation: RadioStation,
+    appUser: AppUser | null | undefined,
+    setAppUser: React.Dispatch<React.SetStateAction<AppUser | undefined | null>>
+): Promise<void> => {
+    if (!appUser) {
+        // Handle the case when appUser is not available (e.g., navigate to login)
+        return;
     }
-    if (location === "/") {
+
+    // Proof if radiostation is favorite and save boolean to isFavorite variable
+    const isFavorite: boolean = appUser.favoriteRadioStations.some(
+        (station) => station.stationuuid === radioStation.stationuuid
+    );
+
+    if (isFavorite) {
+        console.log("remove Item"); // NOCH ZU IMPLEMENTIEREN - DELETE REQUEST
+    }
+
+    if (!isFavorite) {
+        // Kopiere das vorhandene Array und füge das neue Element am Anfang ein
+        const newRadiostations: RadioStation[] = [
+            radioStation,
+            ...appUser.favoriteRadioStations,
+        ];
+
+        const updatedAppUser: AppUser = {
+            ...appUser,
+            favoriteRadioStations: newRadiostations,
+        };
+
+        setAppUser(updatedAppUser);
+
+        const postDTO: PostDTO = {
+            userId: appUser.id,
+            radioStation: radioStation,
+        };
+
         try {
-            const response = await axios.post("/api/radio", radioStation);
+            const response = await axios.post("/api/radio", postDTO);
             console.log("RadioStation added to favorites:", response.data);
         } catch (error) {
             console.error("Error adding RadioStation to favorites:", error);
         }
     }
-}
+};
+
 
 
 // ============= AUTHENTICATION TEST REQUEST ============= //

@@ -1,5 +1,6 @@
 package com.tuneflux.backend.controller;
 
+import com.tuneflux.backend.model.PostDTO;
 import com.tuneflux.backend.model.RadioStation;
 import com.tuneflux.backend.service.RadioService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,7 +38,7 @@ public class RadioController {
     }
 
     @PostMapping("/radio")
-    public RadioStation addRadioStationToFavorites(@RequestBody RadioStation radioStation) {
-        return radioService.addRadioStationToFavorites(radioStation);
+    public RadioStation addRadioStationToFavorites(@RequestBody PostDTO postDTO) {
+        return radioService.addRadioStationToFavorites(postDTO);
     }
 }

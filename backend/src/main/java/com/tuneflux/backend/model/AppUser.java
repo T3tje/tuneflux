@@ -9,7 +9,6 @@ import java.util.List;
 public record AppUser(
         @Id String id,
         String username,
-        String userId,
         List<String> favoriteRadioStationIds
 ) {
 

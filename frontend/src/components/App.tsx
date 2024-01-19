@@ -60,6 +60,8 @@ function App() {
                             searchInput={searchMainInput}
                             setSearchInput={setSearchMainInput}
                             fetchData={functions.fetchData}
+                            appUser={appUser}
+                            setAppUser={setAppUser}
                         />}
                 />
 
@@ -83,6 +85,8 @@ function App() {
                             searchInput={searchMainInput}
                             setSearchInput={setSearchMainInput}
                             fetchData={functions.fetchData}
+                            appUser={appUser}
+                            setAppUser={setAppUser}
                         />}
                 />
             </Routes>
@@ -101,7 +105,7 @@ function App() {
             <div id="footer">
             { appUser ? (
                 <>
-                    <p>{appUser?.name}</p>
+                    <p>{appUser?.username}</p>
                     <button onClick={() => functions.logout(setAppUser)}>logout</button>
                 </>
             ):

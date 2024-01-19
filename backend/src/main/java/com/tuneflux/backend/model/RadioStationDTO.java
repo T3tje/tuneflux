@@ -1,10 +1,7 @@
 package com.tuneflux.backend.model;
-
 import org.springframework.data.annotation.Id;
 
-import java.util.List;
-
-public record RadioStation(
+public record RadioStationDTO(
         @Id String stationuuid,
         String changeuuid,
         String serveruuid,
@@ -31,18 +28,6 @@ public record RadioStation(
         String clicktimestamp_iso8601,
         int clickcount,
         int clicktrend,
-        byte ssl_error,
-        List<String> appUserIds
-) {
-    // Benutzerdefinierte Methode, um appUserIds zu aktualisieren
-    public RadioStation withAppUserIds(List<String> newAppUserIds) {
-        return new RadioStation(
-                stationuuid, changeuuid, serveruuid, name, url, url_resolved,
-                homepage, favicon, tags, country, countrycode, state, language,
-                languagecodes, votes, lastchangetime_iso8601, codec, bitrate,
-                hls, lastcheckok, lastchecktime_iso8601, lastcheckoktime_iso8601,
-                lastlocalchecktime_iso8601, clicktimestamp_iso8601, clickcount,
-                clicktrend, ssl_error, newAppUserIds
-        );
-    }
+        byte ssl_error
+){
 }

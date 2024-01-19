@@ -9,6 +9,7 @@ import RadioStationItem from "./RadioStationItem.tsx";
 import RadioStation from "../models/RadioStation.ts";
 import "../stylesheets/List.css";
 import {useLocation} from "react-router-dom";
+import AppUser from "../models/AppUser.ts";
 
 // Typendefinition für die Props der List-Komponente
 type ListProps = {
@@ -31,7 +32,9 @@ type ListProps = {
         setList: React.Dispatch<SetStateAction<RadioStation[]>>,
         setSearchDone: React.Dispatch<React.SetStateAction<boolean>>
     ) => Promise<void>;
-    listTopic:string
+    listTopic:string,
+    appUser: AppUser | null | undefined,
+    setAppUser:React.Dispatch<SetStateAction<AppUser | undefined | null>>
 };
 
 // Hauptfunktion für die List-Komponente
@@ -92,6 +95,8 @@ export default function List(props: Readonly<ListProps>) {
                                         setActualStation={props.setActualStation}
                                         setIsPlaying={props.setIsPlaying}
                                         location={location.pathname}
+                                        appUser={props.appUser}
+                                        setAppUser={props.setAppUser}
                                     />
                                 ))}
                             </ul>

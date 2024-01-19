@@ -1,6 +1,9 @@
+import RadioStation from "./RadioStation.ts";
+
 type AppUser = {
-    name: string,
-    id: string
+    id: string,
+    username: string,
+    favoriteRadioStations: RadioStation[]
 }
 
 export default AppUser

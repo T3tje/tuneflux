@@ -1,6 +1,9 @@
 package com.tuneflux.backend.service;
 
+import com.tuneflux.backend.model.AppUser;
+import com.tuneflux.backend.model.PostDTO;
 import com.tuneflux.backend.model.RadioStation;
+import com.tuneflux.backend.repository.AppUserRepository;
 import com.tuneflux.backend.repository.RadioRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -9,20 +12,23 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
 import org.springframework.web.util.UriComponentsBuilder;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import java.util.Optional;
 
 @Service
 public class RadioService {
 
-    // Mongo Repository
+    private final AppUserRepository appUserRepository;
     private final RadioRepository radioRepository;
 
-    // Constructor für MongoRepository
     @Autowired
-    public RadioService(RadioRepository radioRepository) {
+    public RadioService(AppUserRepository appUserRepository, RadioRepository radioRepository) {
+        this.appUserRepository = appUserRepository;
         this.radioRepository = radioRepository;
     }
+
 
     /**
      * Retrieves radio station information from the specified API URL.
@@ -74,9 +80,50 @@ public class RadioService {
                 .getBody();
 
     }
+    /**
+     * Adds a radio station to a user's favorites and Favorite-Database and A UserId to RadioStations
+     *
+     * @param postDTO The Data Transfer Object (DTO) containing userId and stationUuid.
+     * @return The updated RadioStation if successfully added, otherwise null.
+     */
+    public RadioStation addRadioStationToFavorites(PostDTO postDTO) {
+        // Find the AppUser with the given userId
+        Optional<AppUser> optionalAppUser = appUserRepository.findById(postDTO.userId());
 
-    // Function for adding a radioStation to MongoDB
-    public RadioStation addRadioStationToFavorites(RadioStation radiostation) {
-        return radioRepository.save(radiostation);
+        if (optionalAppUser.isPresent()) {
+            AppUser appUser = optionalAppUser.get();
+
+            // Füge stationUuid am Anfang der favoriteRadioStationIds-Liste hinzu
+            appUser.favoriteRadioStationIds().add(0, postDTO.radioStation().stationuuid());
+
+            // Save the updated AppUser to the database
+            appUserRepository.save(appUser);
+        } else {
+            // User not found, error handling may be required
+            return null; // You could also throw an exception or return a specific status code here
+        }
+
+        // Find the RadioStation with the given stationUuid
+        Optional<RadioStation> optionalRadioStation = radioRepository.findByStationuuid(postDTO.radioStation().stationuuid());
+
+        if (optionalRadioStation.isPresent()) {
+            RadioStation radioStation = optionalRadioStation.get();
+            // Add userId to the appUserIds list
+            radioStation.appUserIds().add(postDTO.userId());
+            // Save the updated RadioStation to the database
+            return radioRepository.save(radioStation);
+        } else {
+            // If Radiostation isn't present in Database, Add it
+            RadioStation newRadioStation = postDTO.radioStation();
+
+            // Überprüfe, ob appUserIds null ist, und initialisiere es dann mit einer Liste, die postDTO.userId() enthält
+            newRadioStation = newRadioStation.withAppUserIds(
+                    new ArrayList<>(List.of(postDTO.userId()))
+            );
+
+            // Speichere die neue Radiostation
+            return radioRepository.save(newRadioStation);
+        }
     }
 }
+
