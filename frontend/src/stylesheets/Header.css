@@ -1,6 +1,7 @@
 #logo, #logoFav {
     font-size: 37px;
     transition: color 0.3s;
+    margin: 0;
 }
 
 a, a #logo:active, a:focus, a #logo:visited{
@@ -66,6 +67,7 @@ a, a #logoFav:active, a:focus, a #logoFav:visited{
     justify-content: space-between;
     align-items: center;
     width: 100%;
+    padding: 60px 0 15px 0;
 }
 
 .favButton {
@@ -75,6 +77,10 @@ a, a #logoFav:active, a:focus, a #logoFav:visited{
     border: none;
     cursor: pointer;
     transition: color 0.3s, opacity 0.3s;
+}
+
+.favButton:focus {
+    color: darkorange;
 }
 
 .favButton:hover {

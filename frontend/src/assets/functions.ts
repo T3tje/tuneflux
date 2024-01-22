@@ -3,10 +3,7 @@ import axios from 'axios';
 import React, {SetStateAction} from "react";
 import AppUser from "../models/AppUser.ts";
 import PostDTO from "../models/PostDTO.ts";
-
-//Typendefinition für AppUser Argumente
-type NullableAppUser = AppUser | null | undefined;
-
+import NullableAppUser from "../models/NullableAppUser.ts";
 
 // ============= FETCH MAIN LIST DATA / API ABFRAGE ============= //
 const fetchData = async (

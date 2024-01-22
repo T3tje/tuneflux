@@ -1,0 +1,32 @@
+#footer {
+    position: absolute;
+    top: 10px;
+    right: 3vw;
+    background-color: transparent;
+    height: 30px;
+}
+
+.footerButton {
+    background-color: transparent;
+    color: #363636;
+    font-size: 16px;
+    height: 100%;
+    border: none;
+    margin: 3px;
+    cursor: pointer;
+}
+
+.footerButton:hover {
+    color: darkorange;
+}
+
+.loginName {
+    color: #636363;
+}
+
+@media (hover: none) {
+    /* :hover-Stile deaktivieren */
+    .footerButton:hover {
+        color: #363636;
+    }
+}

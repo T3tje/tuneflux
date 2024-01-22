@@ -1,0 +1,31 @@
+#loginDiv {
+    display:flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 50vh;
+}
+
+.loginTypeButton {
+    background-color: #ffffff;
+    border: darkorange solid 2px;
+    border-radius: 25px;
+    font-size: 16px;
+    padding: 8px 16px;
+    cursor: pointer;
+}
+
+.loginTypeButton:hover {
+    background-color: darkorange;
+    color: #ffffff;
+    border-color: #ffffff;
+}
+
+@media (hover: none) {
+    /* :hover-Stile deaktivieren und zu den Standardstilen zurückkehren */
+    .loginTypeButton:hover {
+        background-color: #ffffff;
+        color: #000000;
+        border-color: darkorange;
+    }
+}

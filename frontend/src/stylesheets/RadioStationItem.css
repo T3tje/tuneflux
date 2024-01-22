@@ -11,9 +11,6 @@ li {
 
 }
 
-li:hover {
-    border-bottom-color: #636363;
-}
 
 @media (hover: none) {
     /* :hover-Stile deaktivieren */
@@ -36,16 +33,39 @@ li:hover {
     border: none;
     padding: 0 5px;
     font-size: 22px;
+    transition: color 0.3s, transform 0.3s;
 }
 
 .heartButton:hover {
-    color:#FF8C00FF;
+    transform:scale(1.2);
 }
 
 @media (hover: none) {
     /* :hover-Stile deaktivieren */
     .heartButton:hover {
-        color: #636363;
+        transform: scale(1);
+    }
+}
+
+.heartButtonForFavorite {
+    background-color: transparent;
+    color: darkorange;
+    cursor: pointer;
+    box-shadow: none;
+    border: none;
+    padding: 0 5px;
+    font-size: 22px;
+    transition: color 0.3s, transform 0.3s;
+}
+
+.heartButtonForFavorite:hover {
+    transform: scale(0.8);
+}
+
+@media (hover: none) {
+    /* :hover-Stile deaktivieren */
+    .heartButtonForFavorite:hover {
+        transform: scale(1);
     }
 }
 

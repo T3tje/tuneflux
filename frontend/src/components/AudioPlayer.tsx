@@ -4,9 +4,11 @@
 // ----------------------------------
 
 // Import von Modulen und Komponenten
-import React, { useEffect, useRef, useState } from "react";
+import React, {SetStateAction, useEffect, useRef, useState} from "react";
 import RadioStation from "../models/RadioStation.ts";
 import "../stylesheets/AudioPlayer.css";
+import {functions} from "../assets/functions.ts";
+import NullableAppUser from "../models/NullableAppUser.ts";
 
 // Typendefinition für die Props der AudioPlayer-Komponente
 type AudioPlayerProps = {
@@ -16,7 +18,9 @@ type AudioPlayerProps = {
     setPlayerVisibilityClass: React.Dispatch<React.SetStateAction<string>>,
     isPlaying:boolean,
     setIsPlaying: React.Dispatch<React.SetStateAction<boolean>>,
-    playerVisibilityClass: string
+    playerVisibilityClass: string,
+    appUser: NullableAppUser,
+    setAppUser: React.Dispatch<SetStateAction<NullableAppUser>>
 }
 
 // Hauptfunktion für die AudioPlayer-Komponente
@@ -143,8 +147,18 @@ export default function AudioPlayer(props:AudioPlayerProps) {
                 </audio>
                 {/* Button für das Markieren der Radiostation als Favorit */}
                 <div className="audioPlayerControlsContainer">
-                    <button className="heartButton" id="mainPlayerHeart">♡</button>
+                    <button
+                        id="mainPlayerHeart"
+                        className={
+                            props.appUser?.favoriteRadioStations.some(station => station.stationuuid === (props.actualStation?.stationuuid)) ? 'heartButtonForFavorite' : 'heartButton'
+                        }
+                        onClick={() => props.actualStation && functions.toggleFavorite(props.actualStation, props.appUser, props.setAppUser)}
+                        disabled={!props.actualStation}
+                    >
+                        ♡
+                    </button>
                 </div>
+
             </div>
         </div>
     )

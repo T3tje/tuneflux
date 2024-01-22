@@ -12,6 +12,8 @@ import AudioPlayer from "./AudioPlayer.tsx";
 import AppUser from "../models/AppUser.ts";
 import { functions } from "../assets/functions.ts"
 import {Route, Routes} from "react-router-dom";
+import Login from "./Login.tsx";
+import Footer from "./Footer.tsx";
 
 // Hauptfunktion für die App-Komponente
 function App() {
@@ -97,6 +99,8 @@ function App() {
                             fromFavList={true}
                         />}
                 />
+                {/* LOGIN → Statt List-Komponente, falls nicht eingeloggt */}
+                <Route path="/login" element={<Login />}></Route>
             </Routes>
 
             {/* AudioPlayer-Komponente für die Steuerung des Radioplayers */}
@@ -108,19 +112,13 @@ function App() {
                 isPlaying={isPlaying}
                 setIsPlaying={setIsPlaying}
                 playerVisibilityClass={playerVisibilityClass}
+                appUser={appUser}
+                setAppUser={setAppUser}
             />
-            {/* Footer */}
-            <div id="footer">
-            { appUser ? (
-                <>
-                    <p>{appUser?.username}</p>
-                    <button onClick={() => functions.logout(setAppUser)}>logout</button>
-                </>
-            ):
-                <button onClick={functions.login}>login</button>
-            }
-            </div>
-
+            <Footer
+                appUser={appUser}
+                setAppUser={setAppUser}
+            />
         </>
     );
 }

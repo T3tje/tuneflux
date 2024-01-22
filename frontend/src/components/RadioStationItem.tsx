@@ -24,10 +24,9 @@ export default function RadioStationItem(props: Readonly<RadioStationItemProps>)
             <div>{props.radioStation.name}</div>
             <div className="buttonDiv">
                 <button
-                    style={{
-                        color: props.appUser?.favoriteRadioStations.some(station => station.stationuuid === props.radioStation.stationuuid) ? 'darkorange' : '#ffffff'
-                    }}
-                    className="heartButton"
+                    className={
+                        props.appUser?.favoriteRadioStations.some(station => station.stationuuid === props.radioStation.stationuuid) ? 'heartButtonForFavorite' : 'heartButton'
+                    }
                     onClick={() => functions.toggleFavorite(props.radioStation, props.appUser, props.setAppUser)}
                 >
                     ♡

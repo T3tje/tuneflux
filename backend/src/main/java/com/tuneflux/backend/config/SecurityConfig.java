@@ -27,8 +27,8 @@ public class SecurityConfig {
                         .anyRequest().permitAll()
                 )
                 .sessionManagement(s -> s.sessionCreationPolicy(SessionCreationPolicy.ALWAYS))
-                .oauth2Login(o -> o.defaultSuccessUrl(frontendUrl))
-                .logout(l -> l.logoutSuccessUrl(frontendUrl + "login"));
+                .oauth2Login(o -> o.defaultSuccessUrl(frontendUrl + "favorites"))
+                .logout(l -> l.logoutSuccessUrl(frontendUrl));
         return http.build();
     }
 }

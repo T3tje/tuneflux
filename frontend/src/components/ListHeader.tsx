@@ -7,11 +7,11 @@ import React, { useEffect, useRef, useState } from "react";
 import "../stylesheets/ListHeader.css";
 import { functions } from "../assets/functions.ts";
 import RadioStation from "../models/RadioStation.ts";
-import AppUser from "../models/AppUser.ts";
+import NullableAppUser from "../models/NullableAppUser.ts";
 
 // Typendefinition für die Props der ListHeader-Komponente
 type ListHeaderProps = {
-    appUser: AppUser | null | undefined,
+    appUser: NullableAppUser,
     setSearchInput: React.Dispatch<React.SetStateAction<string>>;
     searchInput: string;
     setListAmountNumber: React.Dispatch<React.SetStateAction<number>>;

@@ -10,6 +10,7 @@ import RadioStation from "../models/RadioStation.ts";
 import "../stylesheets/List.css";
 import AppUser from "../models/AppUser.ts";
 import {functions} from "../assets/functions.ts";
+import {Navigate} from "react-router-dom";
 
 // Typendefinition für die Props der List-Komponente
 type ListProps = {
@@ -42,6 +43,10 @@ export default function List(props: Readonly<ListProps>) {
         }
     }, [props.actualStation]);
 
+    // Wenn appUser nicht vorhanden ist und gerade in Fav List, zur "/login"-Seite navigieren
+    if (!props.appUser && props.fromFavList) {
+        return <Navigate to="/login" />;
+    }
 
     // Rendern der List-Komponente
     return (
@@ -91,7 +96,6 @@ export default function List(props: Readonly<ListProps>) {
                                             props.setSearchDone,
                                             props.fromFavList
                                         )
-
                                     }>
                                         ➧
                                     </button> :
