@@ -1,5 +1,6 @@
-#logo {
+#logo, #logoFav {
     font-size: 37px;
+    transition: color 0.3s;
 }
 
 a, a #logo:active, a:focus, a #logo:visited{
@@ -7,9 +8,56 @@ a, a #logo:active, a:focus, a #logo:visited{
     color: #ffffff;
 }
 
+a, a #logoFav:active, a:focus, a #logoFav:visited{
+    text-decoration: none;
+    color: #ffffff;
+}
 
 #logo span {
     color: darkorange;
+}
+
+#logo:hover {
+    color:darkorange;
+}
+
+#logo:hover span{
+    color: #ffffff;
+}
+
+#logoFav {
+    color: darkorange;
+}
+
+#logoFav span {
+    color: #ffffff;
+}
+
+#logoFav:hover {
+    color:#ffffff;
+}
+
+#logoFav:hover span{
+    color: darkorange;
+}
+
+@media (hover: none) {
+    /* :hover-Stile deaktivieren */
+    #logo:hover {
+        color:#ffffff;
+    }
+
+    #logo:hover span{
+        color: darkorange;
+    }
+
+    #logoFav:hover {
+        color:darkorange;
+    }
+
+    #logoFav:hover span{
+        color: #ffffff;
+    }
 }
 
 #headerDiv {
@@ -26,7 +74,7 @@ a, a #logo:active, a:focus, a #logo:visited{
     font-size: 37px;
     border: none;
     cursor: pointer;
-    transition: transform 0.37s;
+    transition: color 0.3s, opacity 0.3s;
 }
 
 .favButton:hover {

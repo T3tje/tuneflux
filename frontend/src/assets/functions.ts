@@ -4,13 +4,22 @@ import React, {SetStateAction} from "react";
 import AppUser from "../models/AppUser.ts";
 import PostDTO from "../models/PostDTO.ts";
 
+//Typendefinition für AppUser Argumente
+type NullableAppUser = AppUser | null | undefined;
+
+
 // ============= FETCH MAIN LIST DATA / API ABFRAGE ============= //
-const fetchData = async (actualSearchInput: string, numberOfStations: number, setMainList: React.Dispatch<React.SetStateAction<RadioStation[]>>, setSearchDone: React.Dispatch<React.SetStateAction<boolean>>) => {
+const fetchData = async (
+    actualSearchInput: string,
+    numberOfStations: number,
+    setList: React.Dispatch<React.SetStateAction<RadioStation[]>>,
+    setSearchDone: React.Dispatch<React.SetStateAction<boolean>>,
+    ) => {
     try {
         const response = await axios.get(`/api/radio?limit=${numberOfStations}&reverse=true&order=votes&offset=0&tagList=&name=${actualSearchInput}&country=`);
         if (response.status === 200) {
 
-            setMainList(response.data);
+            setList(response.data);
             setSearchDone(true);
         }
     } catch (error) {
@@ -18,14 +27,32 @@ const fetchData = async (actualSearchInput: string, numberOfStations: number, se
     }
 };
 
+// Funktion zum Erhöhen der Anzahl der angezeigten Radiostationen
+const increaseList = (
+    listAmountNumber:number,
+    setListAmountNumber: React.Dispatch<SetStateAction<number>>,
+    searchInput: string,
+    setList: React.Dispatch<SetStateAction<RadioStation[]>>,
+    setSearchDone: React.Dispatch<SetStateAction<boolean>>,
+    fromFavList:boolean
+) => {
+    const increaseBy = 20;
+    const newNumberOfStations = listAmountNumber + increaseBy;
+    setListAmountNumber(newNumberOfStations);
+    if (!fromFavList) {
+        fetchData(searchInput, newNumberOfStations, setList, setSearchDone)
+    }
+
+};
+
 // ============= TOGGLE RADIOSTATION TO OR OUT FAVORIT LIST ============= //
 const toggleFavorite = async (
     radioStation: RadioStation,
-    appUser: AppUser | null | undefined,
-    setAppUser: React.Dispatch<React.SetStateAction<AppUser | undefined | null>>
+    appUser: NullableAppUser,
+    setAppUser: React.Dispatch<React.SetStateAction<NullableAppUser>>
 ): Promise<void> => {
     if (!appUser) {
-        // Handle the case when appUser is not available (e.g., navigate to login)
+        // Handle the case when appUser is not available (e.g., navigate to log in)
         return;
     }
 
@@ -35,7 +62,31 @@ const toggleFavorite = async (
     );
 
     if (isFavorite) {
-        console.log("remove Item"); // NOCH ZU IMPLEMENTIEREN - DELETE REQUEST
+        try {
+            const postDTO: PostDTO = {
+                userId: appUser.id,
+                radioStation: radioStation,
+            };
+
+            // Send DELETE request to remove the radioStation from favorites
+            await axios.delete("/api/radio", { data: postDTO });
+
+            // Update the local state by removing the radioStation from the array
+            const updatedFavoriteStations = appUser.favoriteRadioStations.filter(
+                (station) => station.stationuuid !== radioStation.stationuuid
+            );
+
+            const updatedAppUser: AppUser = {
+                ...appUser,
+                favoriteRadioStations: updatedFavoriteStations,
+            };
+
+            setAppUser(updatedAppUser);
+
+            console.log("RadioStation removed from favorites");
+        } catch (error) {
+            console.error("Error removing RadioStation from favorites:", error);
+        }
     }
 
     if (!isFavorite) {
@@ -66,14 +117,12 @@ const toggleFavorite = async (
     }
 };
 
-
-
 // ============= AUTHENTICATION TEST REQUEST ============= //
-const getMe = (setAppUser:React.Dispatch<SetStateAction<AppUser | undefined | null>>) => {
+const getMe = (setAppUser:React.Dispatch<SetStateAction<NullableAppUser>>) => {
     axios.get("/api/me")
         .then(response => {
             if (response.status === 200) {
-                setAppUser(response.data);
+                setAppUser(response.data); // SET USER TO STATE
             } else {
                 setAppUser(null);
             }
@@ -82,19 +131,19 @@ const getMe = (setAppUser:React.Dispatch<SetStateAction<AppUser | undefined | nu
 }
 
 
+
 // ============= LOGIN / LOGOUT ============= //
 const host = window.location.host === "localhost:5173" ? "http://localhost:8080" : window.location.origin
 //LOGIN
 const login = () => {
-
     window.open(host + "/oauth2/authorization/github", "_self")
 }
+
 //LOGOUT
-const logout = (setAppUser:React.Dispatch<SetStateAction<AppUser | undefined | null>>) => {
+const logout = (setAppUser:React.Dispatch<SetStateAction<NullableAppUser>>) => {
     setAppUser(null)
     window.open(host + "/logout", "_self")
 }
-
 
 // ============= EXPORT ============= //
 export const functions = {
@@ -102,5 +151,6 @@ export const functions = {
     toggleFavorite,
     getMe,
     login,
-    logout
+    logout,
+    increaseList
 }

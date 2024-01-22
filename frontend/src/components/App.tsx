@@ -22,16 +22,24 @@ function App() {
     const [mainPlayLoadingSpinnerVisible, setMainPlayLoadingSpinnerVisible] = useState<boolean>(false);
     const [appUser, setAppUser] = useState<AppUser | undefined | null>(undefined)
     const [mainList, setMainList] = useState<RadioStation[]>([]);
-    // const [favList, setFavList] = useState<RadioStation[]>([]);
+    const [favList, setFavList] = useState<RadioStation[]>([]);
     const [marginListBottom, setMarginListBottom] = useState<string>("");
     const [searchMainListDone, setSearchMainListDone] = useState<boolean>(false);
-    // const [searchFavListDone, setSearchFavListDone] = useState<boolean>(false);
-    const [listAmountNumber, setListAmountNumber] = useState<number>(20);
-    const [searchMainInput, setSearchMainInput] = useState("");
+    const [searchFavListDone, setSearchFavListDone] = useState<boolean>(false);
+    const [mainListAmountNumber, setMainListAmountNumber] = useState<number>(20);
+    const [favListAmountNumber, setFavListAmountNumber] = useState<number>(20);
+    const [searchMainInput, setSearchMainInput] = useState<string>("");
+    const [searchFavInput, setSearchFavInput] = useState<string>("")
 
     useEffect(() => {
         functions.getMe(setAppUser);
+        functions.fetchData("", 20, setMainList, setSearchMainListDone) // Abfrage für Main list
     }, [])
+
+    useEffect(() => {
+        setFavList(appUser ? appUser.favoriteRadioStations : [])
+        setSearchFavListDone(true)
+    }, [appUser]);
 
     // Rendern der App-Komponente
     return (
@@ -45,7 +53,7 @@ function App() {
                     path="/"
                     element={
                         <List
-                            listTopic={"All stations"}
+                            listTopic={"All"}
                             setActualStation={setActualStation}
                             setIsPlaying={setIsPlaying}
                             actualStation={actualStation}
@@ -55,13 +63,13 @@ function App() {
                             setMarginListBottom={setMarginListBottom}
                             searchDone={searchMainListDone}
                             setSearchDone={setSearchMainListDone}
-                            listAmountNumber={listAmountNumber}
-                            setListAmountNumber={setListAmountNumber}
+                            listAmountNumber={mainListAmountNumber}
+                            setListAmountNumber={setMainListAmountNumber}
                             searchInput={searchMainInput}
                             setSearchInput={setSearchMainInput}
-                            fetchData={functions.fetchData}
                             appUser={appUser}
                             setAppUser={setAppUser}
+                            fromFavList={false}
                         />}
                 />
 
@@ -74,19 +82,19 @@ function App() {
                             setActualStation={setActualStation}
                             setIsPlaying={setIsPlaying}
                             actualStation={actualStation}
-                            list={mainList}
-                            setList={setMainList}
+                            list={favList}
+                            setList={setFavList}
                             marginListBottom={marginListBottom}
                             setMarginListBottom={setMarginListBottom}
-                            searchDone={searchMainListDone}
-                            setSearchDone={setSearchMainListDone}
-                            listAmountNumber={listAmountNumber}
-                            setListAmountNumber={setListAmountNumber}
-                            searchInput={searchMainInput}
-                            setSearchInput={setSearchMainInput}
-                            fetchData={functions.fetchData}
+                            searchDone={searchFavListDone}
+                            setSearchDone={setSearchFavListDone}
+                            listAmountNumber={favListAmountNumber}
+                            setListAmountNumber={setFavListAmountNumber}
+                            searchInput={searchFavInput}
+                            setSearchInput={setSearchFavInput}
                             appUser={appUser}
                             setAppUser={setAppUser}
+                            fromFavList={true}
                         />}
                 />
             </Routes>

@@ -8,8 +8,8 @@ import ListHeader from "./ListHeader.tsx";
 import RadioStationItem from "./RadioStationItem.tsx";
 import RadioStation from "../models/RadioStation.ts";
 import "../stylesheets/List.css";
-import {useLocation} from "react-router-dom";
 import AppUser from "../models/AppUser.ts";
+import {functions} from "../assets/functions.ts";
 
 // Typendefinition für die Props der List-Komponente
 type ListProps = {
@@ -26,28 +26,14 @@ type ListProps = {
     setListAmountNumber: React.Dispatch<SetStateAction<number>>,
     searchInput: string,
     setSearchInput: React.Dispatch<SetStateAction<string>>,
-    fetchData: (
-        actualSearchInput: string,
-        numberOfStations: number,
-        setList: React.Dispatch<SetStateAction<RadioStation[]>>,
-        setSearchDone: React.Dispatch<React.SetStateAction<boolean>>
-    ) => Promise<void>;
     listTopic:string,
     appUser: AppUser | null | undefined,
-    setAppUser:React.Dispatch<SetStateAction<AppUser | undefined | null>>
+    setAppUser:React.Dispatch<SetStateAction<AppUser | undefined | null>>,
+    fromFavList: boolean
 };
 
 // Hauptfunktion für die List-Komponente
 export default function List(props: Readonly<ListProps>) {
-    const location = useLocation()
-
-
-
-    // Effekt für das Laden der Radiostationen beim Start
-    useEffect(() => {
-        props.fetchData("", 20, props.setList, props.setSearchDone)
-        console.log(location.pathname)
-    }, []);
 
     // Effekt für die Anpassung des Seitenabstands, wenn eine Radiostation ausgewählt ist
     useEffect(() => {
@@ -55,14 +41,6 @@ export default function List(props: Readonly<ListProps>) {
             props.setMarginListBottom("150px");
         }
     }, [props.actualStation]);
-
-    // Funktion zum Erhöhen der Anzahl der angezeigten Radiostationen
-    const increaseList = () => {
-        const increaseBy = 20;
-        const newNumberOfStations = props.listAmountNumber + increaseBy;
-        props.setListAmountNumber(newNumberOfStations);
-        props.fetchData(props.searchInput, newNumberOfStations, props.setList, props.setSearchDone)
-    };
 
 
     // Rendern der List-Komponente
@@ -75,8 +53,10 @@ export default function List(props: Readonly<ListProps>) {
                         setSearchInput={props.setSearchInput}
                         searchInput={props.searchInput}
                         setListAmountNumber={props.setListAmountNumber}
-                        setMainList={props.setList}
+                        setList={props.setList}
                         setSearchDone={props.setSearchDone}
+                        fromFavList={props.fromFavList}
+                        appUser={props.appUser}
                     />
                     {props.list.length === 0 ? (
                         // Meldung, wenn keine Radiostationen gefunden wurden
@@ -100,9 +80,23 @@ export default function List(props: Readonly<ListProps>) {
                                     />
                                 ))}
                             </ul>
-                            <button className="downArrowButton" onClick={increaseList}>
-                                ➧
-                            </button>
+                            { // List Expand Button, Only if in MainList, else null
+                                !props.fromFavList ?
+                                    <button className="downArrowButton" onClick={
+                                        () => functions.increaseList(
+                                            props.listAmountNumber,
+                                            props.setListAmountNumber,
+                                            props.searchInput,
+                                            props.setList,
+                                            props.setSearchDone,
+                                            props.fromFavList
+                                        )
+
+                                    }>
+                                        ➧
+                                    </button> :
+                                        null
+                            }
                         </>
                     )}
                 </>

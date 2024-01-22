@@ -3,6 +3,7 @@ package com.tuneflux.backend.service;
 import com.tuneflux.backend.model.AppUser;
 import com.tuneflux.backend.model.PostDTO;
 import com.tuneflux.backend.model.RadioStation;
+import com.tuneflux.backend.model.RadioStationDTO;
 import com.tuneflux.backend.repository.AppUserRepository;
 import com.tuneflux.backend.repository.RadioRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -49,7 +50,7 @@ public class RadioService {
     private String radioBaseUrl;
 
     //Function for Radio Api Request
-    public List<RadioStation> getRadioStations(int limit, String reverse, String order, int offset, String tagList, String name, String country) {
+    public List<RadioStationDTO> getRadioStations(int limit, String reverse, String order, int offset, String tagList, String name, String country) {
 
         // Use UriComponentsBuilder for secure and clean URL composition
         UriComponentsBuilder builder = UriComponentsBuilder.fromUriString(radioBaseUrl + "/stations/search")
@@ -75,7 +76,7 @@ public class RadioService {
                                 .uri(apiUrl)
                                 .accept(MediaType.APPLICATION_JSON)
                                 .retrieve()
-                                .toEntityList(RadioStation.class) // <-- Hier verwenden wir toEntityList
+                                .toEntityList(RadioStationDTO.class) // <-- Hier verwenden wir toEntityList
                                 .block())
                 .getBody();
 
@@ -123,6 +124,36 @@ public class RadioService {
 
             // Speichere die neue Radiostation
             return radioRepository.save(newRadioStation);
+        }
+    }
+
+    // Delete a Radiostation uuid from User's Favorite list and
+    // the User's id from Radiostations UserId List
+    public void deleteRadioStationFromFavorites(PostDTO postDTO) {
+        // Find the AppUser with the given userId
+        Optional<AppUser> optionalAppUser = appUserRepository.findById(postDTO.userId());
+
+        if (optionalAppUser.isPresent()) {
+            AppUser appUser = optionalAppUser.get();
+
+            // Remove stationUuid from the favoriteRadioStationIds list
+            appUser.favoriteRadioStationIds().remove(postDTO.radioStation().stationuuid());
+
+            // Save the updated AppUser to the database
+            appUserRepository.save(appUser);
+        }
+
+        // Find the RadioStation with the given stationUuid
+        Optional<RadioStation> optionalRadioStation = radioRepository.findByStationuuid(postDTO.radioStation().stationuuid());
+
+        if (optionalRadioStation.isPresent()) {
+            RadioStation radioStation = optionalRadioStation.get();
+
+            // Remove userId from the appUserIds list
+            radioStation.appUserIds().remove(postDTO.userId());
+
+            // Save the updated RadioStation to the database
+            radioRepository.save(radioStation);
         }
     }
 }

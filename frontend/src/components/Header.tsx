@@ -1,18 +1,30 @@
 // ----------------------------------
-// Header.tsx - Komponente für den Kopfbereich der Anwendung
+// Header.tsx - Component for the header section of the application
 // ----------------------------------
 
-// Import von Ressourcen
+// Importing resources
 import "../stylesheets/Header.css";
-import {Link} from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 
-// Hauptfunktion für die Header-Komponente
+// Main function for the Header component
 export default function Header() {
-    // Rendern des Header-Bereichs
+    const location = useLocation();
+
+    // Class and Opacity for the Logo and FavButton based on the location
+    const logoId = location.pathname === "/favorites" ? "logoFav" : "logo";
+    const favButtonStyles = location.pathname === "/favorites" ? { opacity: 0 } : {};
+
+    // Rendering the Header section
     return (
         <div id="headerDiv">
-            <Link to="/"> <p id="logo"><span>.</span>tuneflux</p></Link>
-            <Link to="/favorites" className="favButton">♡</Link>
+            <Link to="/">
+                <p id={logoId}>
+                    <span>.</span>tuneflux
+                </p>
+            </Link>
+            <Link to="/favorites" className="favButton" style={favButtonStyles}>
+                ♡
+            </Link>
         </div>
     );
 }

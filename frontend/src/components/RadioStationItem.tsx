@@ -10,7 +10,7 @@ type RadioStationItemProps = {
     setIsPlaying: React.Dispatch<React.SetStateAction<boolean>>,
     location: string,
     appUser: AppUser | null | undefined,
-    setAppUser:React.Dispatch<SetStateAction<AppUser | undefined | null>>
+    setAppUser:React.Dispatch<SetStateAction<AppUser | undefined | null>>,
 }
 export default function RadioStationItem(props: Readonly<RadioStationItemProps>) {
 
