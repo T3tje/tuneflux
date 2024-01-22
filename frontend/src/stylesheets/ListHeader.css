@@ -44,10 +44,10 @@
     max-width: 300px;
     height: 30px;
     border-radius: 20px;
-    transition: position 1s, border 0.5s;
+    transition: position 1s, border 0.3s;
     position: relative;
     opacity: 0;
-    animation: fadeInInput 0.5s forwards;
+    animation: fadeInInput 0.3s forwards;
     border: solid 2px #000000;
 }
 
@@ -95,6 +95,7 @@
     position: relative;
     bottom: 2px;
     cursor: pointer;
+    transition: color 0.3s;
 }
 
 .searchInputDelX:hover {
@@ -119,6 +120,7 @@
     cursor: pointer;
     color: #636363;
     font-size: 16px;
+    transition: color 0.3s;
 }
 
 .filterDiv:hover {

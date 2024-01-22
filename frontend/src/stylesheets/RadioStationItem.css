@@ -5,13 +5,21 @@ li {
     align-items: center;
     padding: 5px 0;
     margin: 1px 0;
-    border-bottom: #363636 solid 1px;
+    border-bottom: solid 1px;
+    border-bottom-color: #363636;
     transition: border-bottom-color 0.3s;
 
 }
 
 li:hover {
-    border-bottom: #636363 ridge 1px;
+    border-bottom-color: #636363;
+}
+
+@media (hover: none) {
+    /* :hover-Stile deaktivieren */
+    li:hover {
+        border-bottom-color: #363636;
+    }
 }
 
 .buttonDiv {
@@ -50,6 +58,7 @@ li:hover {
     border: none;
     padding: 0;
     width: 45px;
+    transition: color 0.3s;
 }
 
 .playButton:hover {
