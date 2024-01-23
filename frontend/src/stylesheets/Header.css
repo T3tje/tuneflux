@@ -2,6 +2,8 @@
     font-size: 37px;
     transition: color 0.3s;
     margin: 0;
+    display: flex;
+    flex-direction: row;
 }
 
 a, a #logo:active, a:focus, a #logo:visited{
@@ -93,6 +95,29 @@ a, a #logoFav:active, a:focus, a #logoFav:visited{
         transform: scale(1);
     }
 }
+
+#logoBackPlayButton {
+    transform: rotate(180deg);
+    margin-right: 10px;
+    position: relative;
+    bottom: 4px;
+    left: 0;
+    font-size: 26px;
+    transition: left 0.5s;
+}
+
+
+#logoBackPlayButtonOut {
+    transform: rotate(180deg);
+    margin-right: 10px;
+    position: relative;
+    bottom: 4px;
+    left: -50vw;
+    font-size: 26px;
+    transition: left 0.5s;
+}
+
+
 
 
 

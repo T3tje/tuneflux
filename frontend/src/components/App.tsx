@@ -100,7 +100,7 @@ function App() {
                         />}
                 />
                 {/* LOGIN → Statt List-Komponente, falls nicht eingeloggt */}
-                <Route path="/login" element={<Login />}></Route>
+                <Route path="/login" element={<Login appUser={appUser}/>}></Route>
             </Routes>
 
             {/* AudioPlayer-Komponente für die Steuerung des Radioplayers */}

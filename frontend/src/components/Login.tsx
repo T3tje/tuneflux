@@ -1,7 +1,17 @@
 import "../stylesheets/Login.css"
 import {functions} from "../assets/functions.ts";
-export default function Login() {
+import {Navigate} from "react-router-dom";
+import NullableAppUser from "../models/NullableAppUser.ts";
 
+type LoginProps = {
+    appUser: NullableAppUser
+}
+
+export default function Login(props: Readonly<LoginProps>) {
+
+    if (props.appUser) {
+        return <Navigate to="/favorites" />;
+    }
     return (
         <div id="loginDiv">
             <button

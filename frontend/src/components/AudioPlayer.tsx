@@ -24,7 +24,7 @@ type AudioPlayerProps = {
 }
 
 // Hauptfunktion für die AudioPlayer-Komponente
-export default function AudioPlayer(props:AudioPlayerProps) {
+export default function AudioPlayer(props: Readonly<AudioPlayerProps>) {
     // Zustände für die AudioPlayer-Komponente
     const [volume, setVolume] = useState(30); // Anfangslautstärke auf 50 setzen
     const audioRef = useRef<HTMLAudioElement>(null);
@@ -119,18 +119,24 @@ export default function AudioPlayer(props:AudioPlayerProps) {
     return(
         <div id="audioPlayer" className={props.playerVisibilityClass}>
             <p>{props.actualStation?.name}</p>
+            {/* Lautstärkeregler */}
             <div id="audioPlayerControls">
-                {/* Lautstärkeregler */}
+
                 <div className="audioPlayerControlsContainer">
-                    <input
-                        type="range"
-                        value={volume}
-                        onChange={handleVolumeChange}
-                        min="0"
-                        max="100"
-                        step="1"
-                    />
+                    <div id="volumeDiv">
+                        <input
+                            type="range"
+                            value={volume}
+                            onChange={handleVolumeChange}
+                            min="0"
+                            max="100"
+                            step="1"
+                        />
+                        <div id="abschraegDiv"></div>
+                        <div id="volumeStatus" style={{ width: `${volume * 0.7}px`}}></div>
+                    </div>
                 </div>
+
                 {/* Abspiel-Button oder Pause-Button, abhängig vom Abspielstatus */}
                 <div className="audioPlayerControlsContainer">
                     {

@@ -19,6 +19,7 @@ export default function Header() {
         <div id="headerDiv">
             <Link to="/">
                 <p id={logoId}>
+                    {location.pathname === "/favorites" ? <div id="logoBackPlayButton">▶</div> : <div id="logoBackPlayButtonOut">▶</div> }
                     <span>.</span>tuneflux
                 </p>
             </Link>

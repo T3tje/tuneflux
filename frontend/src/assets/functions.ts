@@ -50,6 +50,8 @@ const toggleFavorite = async (
 ): Promise<void> => {
     if (!appUser) {
         // Handle the case when appUser is not available (e.g., navigate to log in)
+        const loginUrl = `${window.location.protocol}//${window.location.host}/login`;
+        window.open(loginUrl, "_self");
         return;
     }
 
