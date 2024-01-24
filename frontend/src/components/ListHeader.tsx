@@ -50,7 +50,7 @@ export default function ListHeader(props: Readonly<ListHeaderProps>) {
         props.setList(
             props.appUser
                 ? props.appUser.favoriteRadioStations.filter(station =>
-                    station.name.includes(props.searchInput)
+                    station.name.toLowerCase().includes(props.searchInput.toLowerCase()) //not case-sensitive
                 )
                 : [] // Empty list when appUser is not set
         );

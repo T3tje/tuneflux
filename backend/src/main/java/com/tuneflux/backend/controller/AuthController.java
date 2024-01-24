@@ -2,7 +2,6 @@ package com.tuneflux.backend.controller;
 
 import com.tuneflux.backend.model.AppUser;
 import com.tuneflux.backend.model.AppUserDTO;
-import com.tuneflux.backend.model.RadioStation;
 import com.tuneflux.backend.model.RadioStationDTO;
 import com.tuneflux.backend.repository.AppUserRepository;
 import com.tuneflux.backend.repository.RadioRepository;
@@ -19,13 +18,9 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
 import java.util.List;
 
-import java.util.logging.Logger;
-import java.util.stream.Collectors;
-
 @RestController
 @RequestMapping("/api")
 public class AuthController {
-    Logger logger = Logger.getLogger(getClass().getName());
     private final AppUserRepository appUserRepository;
     private final RadioRepository radioRepository;
 
@@ -55,7 +50,7 @@ public class AuthController {
                         .findAllById(existingUser.favoriteRadioStationIds())
                         .stream()
                         .map(RadioStationMapper::mapToDTO)
-                        .collect(Collectors.toList());
+                        .toList();
 
                 // Erstelle eine neue Instanz des Records mit den aktualisierten Werten
                 AppUserDTO updatedUser = new AppUserDTO(

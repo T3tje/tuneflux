@@ -32,7 +32,6 @@ class AuthControllerTest {
     @WithMockUser
     void getMe_whenCalledLoggedIn_expectStatus200AndAppUserAsReturnValue() throws Exception {
         // Perform the GET request to the /api/me endpoint
-        System.out.println("Test123");
         mockMvc.perform(get("/api/me").with(oidcLogin().userInfoToken(token -> token.claim("login", "abc").claim("id", "123"))))
 
                 // Expect a status code of 200 (OK)
@@ -44,4 +43,6 @@ class AuthControllerTest {
                 .andExpect(jsonPath("$.id").exists());
 
     }
+
+
 }

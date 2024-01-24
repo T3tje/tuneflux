@@ -18,9 +18,9 @@ export default function Header() {
     return (
         <div id="headerDiv">
             <Link to="/">
+                {location.pathname === "/favorites" ? <div id="logoBackPlayButton">▶</div> : <div id="logoBackPlayButtonOut">▶</div>}
                 <p id={logoId}>
-                    {location.pathname === "/favorites" ? <div id="logoBackPlayButton">▶</div> : <div id="logoBackPlayButtonOut">▶</div> }
-                    <span>.</span>tuneflux
+                    tuneflu<span>x</span>
                 </p>
             </Link>
             <Link to="/favorites" className="favButton" style={favButtonStyles}>
