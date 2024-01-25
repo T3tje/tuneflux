@@ -26,7 +26,7 @@ type AudioPlayerProps = {
 // Hauptfunktion für die AudioPlayer-Komponente
 export default function AudioPlayer(props: Readonly<AudioPlayerProps>) {
     // Zustände für die AudioPlayer-Komponente
-    const [volume, setVolume] = useState(30); // Anfangslautstärke auf 50 setzen
+    const [volume, setVolume] = useState(37); // Anfangslautstärke auf 50 setzen
     const audioRef = useRef<HTMLAudioElement>(null);
     const currentTimeRef = useRef<number | null>(null);
 
@@ -133,7 +133,7 @@ export default function AudioPlayer(props: Readonly<AudioPlayerProps>) {
                             step="1"
                         />
                         <div id="abschraegDiv"></div>
-                        <div id="volumeStatus" style={{ width: `${volume * 0.7}px`}}></div>
+                        <div id="volumeStatus" style={{ width: `${volume * 0.75}px`}}></div>
                     </div>
                 </div>
 

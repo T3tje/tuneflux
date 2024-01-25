@@ -18,6 +18,7 @@ a, a #logoFav:active, a:focus, a #logoFav:visited{
 
 #logo span {
     color: darkorange;
+    transition: color 0.3s;
 }
 
 #logo:hover {

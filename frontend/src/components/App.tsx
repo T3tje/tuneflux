@@ -55,7 +55,7 @@ function App() {
                     path="/"
                     element={
                         <List
-                            listTopic={"All"}
+                            listTopic={""}
                             setActualStation={setActualStation}
                             setIsPlaying={setIsPlaying}
                             actualStation={actualStation}
@@ -80,7 +80,7 @@ function App() {
                     path="/favorites"
                     element={
                         <List
-                            listTopic={"Favorites"}
+                            listTopic={"favorites"}
                             setActualStation={setActualStation}
                             setIsPlaying={setIsPlaying}
                             actualStation={actualStation}
