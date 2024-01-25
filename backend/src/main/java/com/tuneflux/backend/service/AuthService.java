@@ -13,6 +13,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.oauth2.core.user.DefaultOAuth2User;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import java.util.logging.Logger;
 
 import java.util.List;
 import java.util.Optional;
@@ -20,6 +21,7 @@ import java.util.Optional;
 @Service
 public class AuthService {
 
+    Logger logger = Logger.getLogger(AuthService.class.getName());
     private final AppUserRepository appUserRepository;
     private final RadioRepository radioRepository;
 
@@ -45,8 +47,10 @@ public class AuthService {
 
     public AppUserDTO getOrCreateUser(String userId, String login) {
         Optional<AppUser> existingUserOptional = appUserRepository.findById(userId);
+
         if (existingUserOptional.isPresent()) {
             AppUser existingUser = existingUserOptional.get();
+
                 List<RadioStationDTO> favoriteRadioStations = radioRepository
                     .findAllById(existingUser.favoriteRadioStationIds())
                     .stream()

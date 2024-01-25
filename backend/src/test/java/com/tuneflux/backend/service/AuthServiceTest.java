@@ -24,20 +24,18 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
 
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.*;
 
-@SpringBootTest
 class AuthServiceTest {
 
     private final AppUserRepository mockAppUserRepository = mock(AppUserRepository.class);
 
     private final RadioRepository mockRadioRepository = mock(RadioRepository.class);
 
-    @Autowired
     private final AuthService authService = new AuthService(mockAppUserRepository, mockRadioRepository);
 
-    @DirtiesContext
     @Test
     void authenticateAndGetUser_whenCalledLoggedOut_expectResponseStatusException() {
         // GIVEN
@@ -60,7 +58,6 @@ class AuthServiceTest {
     }
 
     @Test
-    @DirtiesContext
     void authenticateAndGetUser_whenCalledLoggedIn_expectGetOrCreateUserCalledAndStatus200() {
         //GIVEN
         // Mock OAuth2 user
@@ -115,7 +112,7 @@ class AuthServiceTest {
         //mock AppUserRepository Response
         when(mockAppUserRepository.findById("valid")).thenReturn(Optional.of(new AppUser("valid", "anyUsername", List.of("123", "321"))));
 
-        AppUserDTO expectedAppUserDTO = new AppUserDTO("valid", "anyUserName", dummyListDTO);
+        AppUserDTO expectedAppUserDTO = new AppUserDTO("valid", "anyUsername", dummyListDTO);
         //WHEN
         AppUserDTO actualAppUserDTO = authService.getOrCreateUser("valid", "anyUsername");
 
