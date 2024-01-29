@@ -277,6 +277,9 @@ class RadioServiceTest {
         //AppUser Repository verhalten festlegen, wenn appUser gespeichert wird
         when(appUserRepository.save(existingAppUserWithOutExistingRadioStationId)).thenReturn(existingAppUserWithOutExistingRadioStationId);
 
+        //AppUser Repository verhalten festlegen, wenn AppUser vorhanden, da sonst exception geworfen wird
+        when(radioRepository.findByStationuuid("StationUuid")).thenReturn(Optional.of(RadioServiceUtils.radioStationWithExistingUserId)); // NotExisting RadioStation
+
         // PostDTO erstellen mit existierender UserId und RadioStation mit User Id
         PostDTO postDTO = new PostDTO("existingUserId", RadioServiceUtils.radioStationWithExistingUserId);
 
