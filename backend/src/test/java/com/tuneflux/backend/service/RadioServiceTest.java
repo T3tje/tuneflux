@@ -206,7 +206,40 @@ class RadioServiceTest {
         when(appUserRepository.save(getExistingAppUserWithAddedStationId)).thenReturn(getExistingAppUserWithAddedStationId);
 
         // Verhalten der Radio-repository festlegen
-        when(radioRepository.findByStationuuid("NotExistingStationUuid")).thenReturn(Optional.of(RadioServiceUtils.radioStationWithExistingUserId));
+        when(radioRepository.findByStationuuid("StationUuid")).thenReturn(Optional.of(RadioServiceUtils.radioStationWithOutExistingUserId));
+        when(radioRepository.save(RadioServiceUtils.radioStationWithOutExistingUserId)).thenReturn(RadioServiceUtils.radioStationWithOutExistingUserId);
+        // PostDTO erstellen mit existierender UserId und zu Adder Radiostation
+        PostDTO postDTO = new PostDTO("existingUserId", RadioServiceUtils.radioStationWithOutExistingUserId);
+
+        // WHEN
+
+        // Methode ausführen
+        radioService.addRadioStationToFavorites(postDTO);
+
+        // THEN
+
+        //radioRepository.save sollte mit der Radiostation mit der hinzugefügten UserId ausgeführt werden
+        verify(radioRepository).save(RadioServiceUtils.radioStationWithExistingUserId);
+    }
+
+    @Test
+    @DirtiesContext
+    void addRadioStationToFavorites_whenExecuteWithExistentUserAndWithNotExistentRadioStation_shouldReturnRadioStationWithNewUserId() {
+        //GIVEN
+
+        // Mock Repositories
+        AppUserRepository appUserRepository = mock(AppUserRepository.class);
+        RadioRepository radioRepository = mock(RadioRepository.class);
+        //RadioService mit den entsprechenden Repositories instantiieren
+        RadioService radioService = new RadioService(appUserRepository, radioRepository);
+
+        //AppUser Repository verhalten festlegen, wenn AppUser vorhanden
+        when(appUserRepository.findById(existingAppUserWithOutExistingRadioStationId.id())).thenReturn(Optional.of(existingAppUserWithOutExistingRadioStationId));
+        //AppUser Repository verhalten festlegen, wenn appUser gespeichert wird
+        when(appUserRepository.save(getExistingAppUserWithAddedStationId)).thenReturn(getExistingAppUserWithAddedStationId);
+
+        // Verhalten der Radio-repository festlegen
+        when(radioRepository.findByStationuuid("NotExistingStationUuid")).thenReturn(Optional.empty()); // NotExisting RadioStation
         when(radioRepository.save(RadioServiceUtils.radioStationWithExistingUserId)).thenReturn(RadioServiceUtils.radioStationWithExistingUserId);
         // PostDTO erstellen mit existierender UserId und zu Adder Radiostation
         PostDTO postDTO = new PostDTO("existingUserId", RadioServiceUtils.radioStationWithOutExistingUserId);

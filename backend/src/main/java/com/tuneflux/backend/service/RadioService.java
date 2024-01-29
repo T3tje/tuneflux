@@ -108,11 +108,13 @@ public class RadioService {
         Optional<RadioStation> optionalRadioStation = radioRepository.findByStationuuid(postDTO.radioStation().stationuuid());
 
         if (optionalRadioStation.isPresent()) {
-            RadioStation radioStation = optionalRadioStation.get();
+            RadioStation radioStationPresent = optionalRadioStation.get();
             // Add userId to the appUserIds list
-            radioStation.appUserIds().add(postDTO.userId());
+            List<String> updatedAppUserIds = new ArrayList<>(radioStationPresent.appUserIds());
+            updatedAppUserIds.add(postDTO.userId());
+            radioStationPresent = radioStationPresent.withAppUserIds(updatedAppUserIds);
             // Save the updated RadioStation to the database
-            return radioRepository.save(radioStation);
+            return radioRepository.save(radioStationPresent);
         } else {
             // If Radiostation isn't present in Database, Add it
             RadioStation newRadioStation = postDTO.radioStation();

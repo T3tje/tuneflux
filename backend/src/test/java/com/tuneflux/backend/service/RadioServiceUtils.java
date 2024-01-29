@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class RadioServiceUtils {
-
+    //NICHT VERÄNDERN!!!
     public final static RadioStation radioStationWithExistingUserId = new RadioStation(
         "StationUuid",
                 "anotherChangeuuidValue",
@@ -36,7 +36,7 @@ public class RadioServiceUtils {
             (byte) 1, // ssl_error
             List.of("existingUserId") // appUserIds
             );
-    //NICHT VERÄNDERN
+    //NICHT VERÄNDERN!!
     public final static RadioStation radioStationWithOutExistingUserId = new RadioStation(
             "StationUuid",
             "anotherChangeuuidValue",
@@ -67,4 +67,6 @@ public class RadioServiceUtils {
             (byte) 1, // ssl_error
             new ArrayList<>() // appUserIds
     );
+
+
 }
