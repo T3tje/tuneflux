@@ -1,5 +1,7 @@
 package com.tuneflux.backend.service;
 
+import com.tuneflux.backend.exceptions.RadioStationNotFoundException;
+import com.tuneflux.backend.exceptions.UserNotFoundException;
 import com.tuneflux.backend.model.AppUser;
 import com.tuneflux.backend.model.PostDTO;
 import com.tuneflux.backend.model.RadioStation;
@@ -139,10 +141,16 @@ public class RadioService {
             AppUser appUser = optionalAppUser.get();
 
             // Remove stationUuid from the favoriteRadioStationIds list
-            appUser.favoriteRadioStationIds().remove(postDTO.radioStation().stationuuid());
+            List<String> updatedFavoriteRadioStationIds = new ArrayList<>(appUser.favoriteRadioStationIds());
+            updatedFavoriteRadioStationIds.remove(postDTO.radioStation().stationuuid());
+            appUser = appUser.withFavoriteRadioStationIds(updatedFavoriteRadioStationIds);
 
             // Save the updated AppUser to the database
             appUserRepository.save(appUser);
+        } else {
+            // User not found, send an error message to the frontend
+            throw new UserNotFoundException("User with ID " + postDTO.userId() + " not found.");
+            // Alternatively, you can handle this situation without an exception, depending on your needs
         }
 
         // Find the RadioStation with the given stationUuid
@@ -151,11 +159,16 @@ public class RadioService {
         if (optionalRadioStation.isPresent()) {
             RadioStation radioStation = optionalRadioStation.get();
 
-            // Remove userId from the appUserIds list
-            radioStation.appUserIds().remove(postDTO.userId());
+        // Remove userId from the appUserIds list
+            List<String> updatedAppUserIds = new ArrayList<>(radioStation.appUserIds());
+            updatedAppUserIds.remove(postDTO.userId());
+            radioStation = radioStation.withAppUserIds(updatedAppUserIds);
 
-            // Save the updated RadioStation to the database
+        // Save the updated RadioStation to the database
             radioRepository.save(radioStation);
+        } else {
+            // If Radiostation isn't present in Database, throw RadioStationNotFoundException
+            throw new RadioStationNotFoundException("RadioStation with stationUuid " + postDTO.radioStation().stationuuid() + " not found");
         }
     }
 }

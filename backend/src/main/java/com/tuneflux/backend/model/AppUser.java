@@ -12,4 +12,8 @@ public record AppUser(
         List<String> favoriteRadioStationIds
 ) {
 
+    // Benutzerdefinierte Methode, um favoriteRadioStationIds zu aktualisieren
+    public AppUser withFavoriteRadioStationIds(List<String> newFavoriteRadioStationIds) {
+        return new AppUser(id, username, newFavoriteRadioStationIds);
+    }
 }

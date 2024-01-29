@@ -1,5 +1,7 @@
 package com.tuneflux.backend.service;
 
+import com.tuneflux.backend.exceptions.RadioStationNotFoundException;
+import com.tuneflux.backend.exceptions.UserNotFoundException;
 import okhttp3.mockwebserver.MockResponse;
 import okhttp3.mockwebserver.MockWebServer;
 import okhttp3.mockwebserver.RecordedRequest;
@@ -70,6 +72,7 @@ class RadioServiceTest {
             List.of("StationUuid")
     );
 
+    // ============= GET =============
     @Test
     void radioService_getRadioStations_shouldReturnOneRadioStation_whenAskedForOne() throws InterruptedException {
         // GIVEN
@@ -129,6 +132,8 @@ class RadioServiceTest {
 
     }
 
+
+    // ============= POST =============
     @Test
     @DirtiesContext
     void addRadioStationToFavorites_UserExistsAndRadioStationExists_ShouldReturnUpdatedRadioStation() {
@@ -253,6 +258,126 @@ class RadioServiceTest {
 
         //radioRepository.save sollte mit der Radiostation mit der hinzugefügten UserId ausgeführt werden
         verify(radioRepository).save(RadioServiceUtils.radioStationWithExistingUserId);
+    }
+
+    // ============= DELETE =============
+    @Test
+    @DirtiesContext
+    void deleteRadioStationToFavorites_whenExecuteWithExistentUserAndExistentRadioStation_shouldSaveRadioStationWithOutNewUserId() {
+        // GIVEN
+
+        // Mock Repositories
+        AppUserRepository appUserRepository = mock(AppUserRepository.class);
+        RadioRepository radioRepository = mock(RadioRepository.class);
+        //RadioService mit den entsprechenden Repositories instantiieren
+        RadioService radioService = new RadioService(appUserRepository, radioRepository);
+
+        //AppUser Repository verhalten festlegen, wenn AppUser vorhanden
+        when(appUserRepository.findById(getExistingAppUserWithAddedStationId.id())).thenReturn(Optional.of(getExistingAppUserWithAddedStationId));
+        //AppUser Repository verhalten festlegen, wenn appUser gespeichert wird
+        when(appUserRepository.save(existingAppUserWithOutExistingRadioStationId)).thenReturn(existingAppUserWithOutExistingRadioStationId);
+
+        // PostDTO erstellen mit existierender UserId und RadioStation mit User Id
+        PostDTO postDTO = new PostDTO("existingUserId", RadioServiceUtils.radioStationWithExistingUserId);
+
+        // WHEN
+
+        // Methode ausführen
+        radioService.deleteRadioStationFromFavorites(postDTO);
+
+        // THEN
+
+        //appUserRepository.save soll ausgeführt werden mit Radiostation OHNE UserId (Wird im Service gelöscht)
+        verify(appUserRepository).save(existingAppUserWithOutExistingRadioStationId);
+    }
+
+    @Test
+    @DirtiesContext
+    void deleteRadioStationToFavorites_whenExecuteWithNotExistentUser_shouldThrowUserNotFoundException() {
+        // GIVEN
+
+        // Mock Repositories
+        AppUserRepository appUserRepository = mock(AppUserRepository.class);
+        RadioRepository radioRepository = mock(RadioRepository.class);
+        //RadioService mit den entsprechenden Repositories instantiieren
+        RadioService radioService = new RadioService(appUserRepository, radioRepository);
+
+        //AppUser Repository verhalten festlegen, wenn AppUser vorhanden
+        when(appUserRepository.findById("NotExistingUserId")).thenReturn(Optional.empty());
+
+        // PostDTO erstellen mit existierender UserId und RadioStation mit User Id
+        PostDTO postDTO = new PostDTO("NotExistingUserId", RadioServiceUtils.radioStationWithExistingUserId);
+
+        // WHEN & THEN
+        // Überprüfen, ob die UserNotFoundException geworfen wird
+        assertThrows(UserNotFoundException.class, () -> radioService.deleteRadioStationFromFavorites(postDTO));
+
+        // Verifizieren, dass appUserRepository.save NICHT aufgerufen wurde, da die UserNotFoundException ausgelöst wurde
+        verify(appUserRepository, never()).save(any());
+    }
+
+    @Test
+    @DirtiesContext
+    void deleteRadioStationToFavorites_whenExecuteWithExistentUserAndExistentRadioStation_shouldDeleteRadioStationUuIdFromAppUser() {
+        // GIVEN
+
+        // Mock Repositories
+        AppUserRepository appUserRepository = mock(AppUserRepository.class);
+        RadioRepository radioRepository = mock(RadioRepository.class);
+        //RadioService mit den entsprechenden Repositories instantiieren
+        RadioService radioService = new RadioService(appUserRepository, radioRepository);
+
+        //AppUser Repository verhalten festlegen, wenn AppUser vorhanden
+        when(appUserRepository.findById(getExistingAppUserWithAddedStationId.id())).thenReturn(Optional.of(getExistingAppUserWithAddedStationId));
+        //AppUser Repository verhalten festlegen, wenn appUser gespeichert wird
+        when(appUserRepository.save(existingAppUserWithOutExistingRadioStationId)).thenReturn(existingAppUserWithOutExistingRadioStationId);
+
+        // Verhalten der Radio-repository festlegen
+        when(radioRepository.findByStationuuid("StationUuid")).thenReturn(Optional.of(RadioServiceUtils.radioStationWithExistingUserId)); // NotExisting RadioStation
+        when(radioRepository.save(RadioServiceUtils.radioStationWithOutExistingUserId)).thenReturn(RadioServiceUtils.radioStationWithOutExistingUserId);
+
+        // PostDTO erstellen mit existierender UserId und RadioStation mit User Id
+        PostDTO postDTO = new PostDTO("existingUserId", RadioServiceUtils.radioStationWithExistingUserId);
+
+        // WHEN
+
+        // Methode ausführen
+        radioService.deleteRadioStationFromFavorites(postDTO);
+
+        // THEN
+
+        //appUserRepository.save soll ausgeführt werden mit Radiostation OHNE UserId (Wird im Service gelöscht)
+        verify(radioRepository).save(RadioServiceUtils.radioStationWithOutExistingUserId);
+    }
+
+    @Test
+    @DirtiesContext
+    void deleteRadioStationToFavorites_whenExecuteWithExistentUserAndNOTExistentRadioStation_shouldThrowRadioStationNotFoundException() {
+        // GIVEN
+
+        // Mock Repositories
+        AppUserRepository appUserRepository = mock(AppUserRepository.class);
+        RadioRepository radioRepository = mock(RadioRepository.class);
+        //RadioService mit den entsprechenden Repositories instantiieren
+        RadioService radioService = new RadioService(appUserRepository, radioRepository);
+
+        //AppUser Repository verhalten festlegen, wenn AppUser vorhanden
+        when(appUserRepository.findById(getExistingAppUserWithAddedStationId.id())).thenReturn(Optional.of(getExistingAppUserWithAddedStationId));
+        //AppUser Repository verhalten festlegen, wenn appUser gespeichert wird
+        when(appUserRepository.save(existingAppUserWithOutExistingRadioStationId)).thenReturn(existingAppUserWithOutExistingRadioStationId);
+
+        // Verhalten der Radio-repository festlegen
+        when(radioRepository.findByStationuuid("StationUuid")).thenReturn(Optional.empty()); // NotExisting RadioStation
+
+        // PostDTO erstellen mit existierender UserId und RadioStation mit User Id
+        PostDTO postDTO = new PostDTO("existingUserId", RadioServiceUtils.radioStationWithExistingUserId);
+
+        // WHEN & THEN
+        // Überprüfen, ob die UserNotFoundException geworfen wird
+        assertThrows(RadioStationNotFoundException.class, () -> radioService.deleteRadioStationFromFavorites(postDTO));
+
+        // Verifizieren, dass appUserRepository.save NICHT aufgerufen wurde, da die UserNotFoundException ausgelöst wurde
+        verify(radioRepository, never()).save(any());
     }
 }
 
