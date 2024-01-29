@@ -7,14 +7,17 @@ import React, { useEffect, useRef, useState } from "react";
 import "../stylesheets/ListHeader.css";
 import { functions } from "../assets/functions.ts";
 import RadioStation from "../models/RadioStation.ts";
+import NullableAppUser from "../models/NullableAppUser.ts";
 
 // Typendefinition für die Props der ListHeader-Komponente
 type ListHeaderProps = {
+    appUser: NullableAppUser,
     setSearchInput: React.Dispatch<React.SetStateAction<string>>;
     searchInput: string;
     setListAmountNumber: React.Dispatch<React.SetStateAction<number>>;
-    setMainList: React.Dispatch<React.SetStateAction<RadioStation[]>>;
+    setList: React.Dispatch<React.SetStateAction<RadioStation[]>>;
     setSearchDone: React.Dispatch<React.SetStateAction<boolean>>;
+    fromFavList: boolean
 }
 
 // Hauptfunktion für die ListHeader-Komponente
@@ -30,9 +33,27 @@ export default function ListHeader(props: Readonly<ListHeaderProps>) {
         }
     }, [searchOpen]);
 
-    // Funktion zum Umschalten des Suchfelds
+    //Fast filter if in Fav list
+    useEffect(() => {
+        if (props.fromFavList) {
+            fastSearch();
+        }
+    }, [props.searchInput]);
+
+    // Funktion zum Umschalten des Suchfelds - AKTUELL INVISIBLE
     const toggleSeachInput = () => {
         setSearchOpen((searchOpen) => !searchOpen);
+    }
+
+    //Search (Filter) Stations and put them to state // ONLY FOR FAV LIST
+    const fastSearch = () => {
+        props.setList(
+            props.appUser
+                ? props.appUser.favoriteRadioStations.filter(station =>
+                    station.name.toLowerCase().includes(props.searchInput.toLowerCase()) //not case-sensitive
+                )
+                : [] // Empty list when appUser is not set
+        );
     }
 
     // Funktion für die Behandlung der Eingabe im Suchfeld
@@ -43,32 +64,45 @@ export default function ListHeader(props: Readonly<ListHeaderProps>) {
     // Funktion für den X-Button zum Löschen der Suchanfrage
     const handleXButton = () => {
         props.setSearchInput("");
-        //toggleSeachInput();
-        functions.fetchData("", 11, props.setMainList, props.setSearchDone);
-        props.setListAmountNumber(11);
+        if (!props.fromFavList) {
+            // if not in FavList fetchData from api
+            functions.fetchData("", 20, props.setList, props.setSearchDone);
+        } else {
+            // if in Fav List fill List with all Users Favorit stations
+            props.setList(props.appUser ? props.appUser.favoriteRadioStations : []) // empty list when appUser is not set
+        }
+        props.setListAmountNumber(20);
     }
 
     // Funktion für die Behandlung des Tastendrucks im Suchfeld
     const handleKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
         if (event.key === "Enter") {
-            functions.fetchData(props.searchInput, 11, props.setMainList, props.setSearchDone);
-            props.setListAmountNumber(11);
+            if (!props.fromFavList) {
+                // If not in the favorites list, fetch data
+                functions.fetchData(props.searchInput, 20, props.setList, props.setSearchDone);
+            } else {
+                // Otherwise, filter the user's favorites and set it to the favList state
+                fastSearch();
+            }
+            props.setListAmountNumber(20);
         }
-    }
+    };
+
+
 
     // Rendern der ListHeader-Komponente
     return (
         <div id="listHeaderDiv">
             {/* Text für den Filter- und Sortierbereich */}
-            <div id="filterDiv">Filter / Sort</div>
-            {/* Bedingte Anzeige des Suchfelds oder Lupenbuttons */}
+            <div className="filterDiv">Filter <span>/</span> Sort</div>
+            {/* Bedingte Anzeige des Suchfelds oder Lupen buttons */}
             {searchOpen ?
                 <div className="searchInputOuterDiv">
                     <input
                         type="text"
                         onChange={handleSearchInput}
                         value={props.searchInput}
-                        placeholder="search station"
+                        placeholder="Search station by name..."
                         onKeyDown={handleKeyDown}
                         ref={inputRef}
                     />

@@ -5,13 +5,18 @@ li {
     align-items: center;
     padding: 5px 0;
     margin: 1px 0;
-    border-bottom: #363636 solid 1px;
+    border-bottom: solid 1px;
+    border-bottom-color: #363636;
     transition: border-bottom-color 0.3s;
 
 }
 
-li:hover {
-    border-bottom: #636363 ridge 1px;
+
+@media (hover: none) {
+    /* :hover-Stile deaktivieren */
+    li:hover {
+        border-bottom-color: #363636;
+    }
 }
 
 .buttonDiv {
@@ -28,16 +33,39 @@ li:hover {
     border: none;
     padding: 0 5px;
     font-size: 22px;
+    transition: color 0.3s, transform 0.3s;
 }
 
 .heartButton:hover {
-    color:white;
+    transform:scale(1.2);
 }
 
 @media (hover: none) {
     /* :hover-Stile deaktivieren */
     .heartButton:hover {
-        color: #636363;
+        transform: scale(1);
+    }
+}
+
+.heartButtonForFavorite {
+    background-color: transparent;
+    color: darkorange;
+    cursor: pointer;
+    box-shadow: none;
+    border: none;
+    padding: 0 5px;
+    font-size: 22px;
+    transition: color 0.3s, transform 0.3s;
+}
+
+.heartButtonForFavorite:hover {
+    transform: scale(0.8);
+}
+
+@media (hover: none) {
+    /* :hover-Stile deaktivieren */
+    .heartButtonForFavorite:hover {
+        transform: scale(1);
     }
 }
 
@@ -50,8 +78,9 @@ li:hover {
     border: none;
     padding: 0;
     width: 45px;
+    transition: color 0.3s;
 }
 
 .playButton:hover {
-    color: #636363;
+    color: #FF8C00FF;
 }

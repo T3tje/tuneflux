@@ -1,5 +1,69 @@
-#logo {
-    font-size: 26px;
+#logo, #logoFav {
+    font-size: 37px;
+    margin: 0;
+    display: flex;
+    flex-direction: row;
+    transition: color 0.3s, margin-left 0.5s;
+}
+
+a, a #logo:active, a:focus, a #logo:visited{
+    text-decoration: none;
+    color: #ffffff;
+}
+
+a, a #logoFav:active, a:focus, a #logoFav:visited{
+    text-decoration: none;
+    color: #ffffff;
+}
+
+#logo span {
+    color: darkorange;
+    transition: color 0.3s;
+}
+
+#logo:hover {
+    color:darkorange;
+}
+
+#logo:hover span{
+    color: #ffffff;
+}
+
+#logoFav {
+    color: darkorange;
+    margin: 0 0 0 26px;
+}
+
+#logoFav span {
+    color: #ffffff;
+    transition: color 0.3s;
+}
+
+#logoFav:hover {
+    color:#ffffff;
+}
+
+#logoFav:hover span{
+    color: darkorange;
+}
+
+@media (hover: none) {
+    /* :hover-Stile deaktivieren */
+    #logo:hover {
+        color:#ffffff;
+    }
+
+    #logo:hover span{
+        color: darkorange;
+    }
+
+    #logoFav:hover {
+        color:darkorange;
+    }
+
+    #logoFav:hover span{
+        color: #ffffff;
+    }
 }
 
 #headerDiv {
@@ -8,7 +72,56 @@
     justify-content: space-between;
     align-items: center;
     width: 100%;
+    padding: 60px 0 15px 0;
 }
+
+.favButton {
+    background-color: transparent;
+    color: #FF8C00FF;
+    font-size: 37px;
+    border: none;
+    cursor: pointer;
+    transition: color 0.3s, opacity 0.3s;
+}
+
+.favButton:focus {
+    color: darkorange;
+}
+
+.favButton:hover {
+    color: #ffffff;
+}
+
+@media (hover: none) {
+    /* :hover-Stile deaktivieren */
+    .favButton:hover {
+        transform: scale(1);
+    }
+}
+
+#logoBackPlayButton {
+    transform: rotate(180deg);
+    position: absolute;
+    top: 73px;
+    margin: 0 10px 4px 0;
+    font-size: 26px;
+    opacity: 1;
+    transition: opacity 0.5s;
+}
+
+
+#logoBackPlayButtonOut {
+    transform: rotate(180deg);
+    position: absolute;
+    top: 73px;
+    margin: 0 10px 4px 0;
+    font-size: 26px;
+    opacity: 0;
+    transition: opacity 0.5s;
+}
+
+
+
 
 
 

@@ -4,9 +4,11 @@
 // ----------------------------------
 
 // Import von Modulen und Komponenten
-import React, { useEffect, useRef, useState } from "react";
+import React, {SetStateAction, useEffect, useRef, useState} from "react";
 import RadioStation from "../models/RadioStation.ts";
 import "../stylesheets/AudioPlayer.css";
+import {functions} from "../assets/functions.ts";
+import NullableAppUser from "../models/NullableAppUser.ts";
 
 // Typendefinition für die Props der AudioPlayer-Komponente
 type AudioPlayerProps = {
@@ -16,11 +18,13 @@ type AudioPlayerProps = {
     setPlayerVisibilityClass: React.Dispatch<React.SetStateAction<string>>,
     isPlaying:boolean,
     setIsPlaying: React.Dispatch<React.SetStateAction<boolean>>,
-    playerVisibilityClass: string
+    playerVisibilityClass: string,
+    appUser: NullableAppUser,
+    setAppUser: React.Dispatch<SetStateAction<NullableAppUser>>
 }
 
 // Hauptfunktion für die AudioPlayer-Komponente
-export default function AudioPlayer(props:AudioPlayerProps) {
+export default function AudioPlayer(props: Readonly<AudioPlayerProps>) {
     // Zustände für die AudioPlayer-Komponente
     const [volume, setVolume] = useState(37); // Anfangslautstärke auf 50 setzen
     const audioRef = useRef<HTMLAudioElement>(null);
@@ -102,22 +106,37 @@ export default function AudioPlayer(props:AudioPlayerProps) {
         setVolume(Number(event.target.value));
     };
 
+    useEffect(() => {
+        const audioElement = audioRef.current;
+
+        if (audioElement) {
+            // Lautstärke auf einen Wert zwischen 0 und 1 umrechnen
+            audioElement.volume = volume / 100;
+        }
+    }, [volume]);
+
     // Rendern der AudioPlayer-Komponente
     return(
         <div id="audioPlayer" className={props.playerVisibilityClass}>
             <p>{props.actualStation?.name}</p>
+            {/* Lautstärkeregler */}
             <div id="audioPlayerControls">
-                {/* Lautstärkeregler */}
+
                 <div className="audioPlayerControlsContainer">
-                    <input
-                        type="range"
-                        value={volume}
-                        onChange={handleVolumeChange}
-                        min="0"
-                        max="100"
-                        step="1"
-                    />
+                    <div id="volumeDiv">
+                        <input
+                            type="range"
+                            value={volume}
+                            onChange={handleVolumeChange}
+                            min="0"
+                            max="100"
+                            step="1"
+                        />
+                        <div id="abschraegDiv"></div>
+                        <div id="volumeStatus" style={{ width: `${volume * 0.75}px`}}></div>
+                    </div>
                 </div>
+
                 {/* Abspiel-Button oder Pause-Button, abhängig vom Abspielstatus */}
                 <div className="audioPlayerControlsContainer">
                     {
@@ -134,8 +153,18 @@ export default function AudioPlayer(props:AudioPlayerProps) {
                 </audio>
                 {/* Button für das Markieren der Radiostation als Favorit */}
                 <div className="audioPlayerControlsContainer">
-                    <button className="heartButton" id="mainPlayerHeart">♡</button>
+                    <button
+                        id="mainPlayerHeart"
+                        className={
+                            props.appUser?.favoriteRadioStations.some(station => station.stationuuid === (props.actualStation?.stationuuid)) ? 'heartButtonForFavorite' : 'heartButton'
+                        }
+                        onClick={() => props.actualStation && functions.toggleFavorite(props.actualStation, props.appUser, props.setAppUser)}
+                        disabled={!props.actualStation}
+                    >
+                        ♡
+                    </button>
                 </div>
+
             </div>
         </div>
     )
