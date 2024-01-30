@@ -52,7 +52,7 @@
 }
 
 .searchInputOuterDiv:hover {
-    border: solid 2px darkorange;
+    border: solid 2px #FF8C00FF;
 }
 
 @keyframes fadeInInput {
@@ -69,6 +69,7 @@
     line-height: 100%;
     font-size: 16px;
     width: 80%;
+    height: 28px;
 
 }
 
@@ -79,11 +80,11 @@
 }
 
 .searchInputOuterDiv input::placeholder {
-    color: #b6b6b6;
+    color: #636363;
     font-size: 13px;
     position: relative;
-    bottom: 1px;
     font-weight: 100;
+    line-height: 28px;
 }
 
 .searchInputDelX {

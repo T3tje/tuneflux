@@ -47,7 +47,8 @@
 
 #audioPlayerControls {
     display: flex;
-    justify-content: space-between;
+    flex-direction: row;
+    justify-content: center;
     width: 100%;
 }
 
@@ -57,7 +58,7 @@
 
 #mainPlayButton:hover {
     border-color: #ffffff;
-    color: darkorange;
+    color: #FF8C00FF;
 }
 
 /* Media Query für Geräte mit Touch-Unterstützung */
@@ -75,8 +76,14 @@
     flex-direction: row;
 }
 
+.audioPlayerControlsContainerMitte {
+    width: 20%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
 .audioPlayerControlsContainer {
-    width: 33.3%;
+    width: 40%;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -105,14 +112,16 @@ input[type="range"] {
     background-color: transparent;
     width: 80px;
     height: 25px;
-    border-radius: 1px;
     border: #000000 solid 5px;
     margin: 0 auto;
     outline: 0;
     cursor: pointer;
 
 }
-
+input[type="range"]::-moz-range-thumb {
+    background-color: transparent;
+    border-color: transparent;
+}
 #abschraegDiv {
     width: 85px;
     margin-right: 5px;
@@ -122,12 +131,10 @@ input[type="range"] {
     background-color: #000000;
     z-index: -1;
     transform: rotate(-15deg);
-
-
 }
 
 #volumeStatus {
-    background-color: darkorange;
+    background-color: #FF8C00FF;
     height: 25px;
     position: absolute;
     z-index: -2;

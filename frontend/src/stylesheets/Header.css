@@ -17,12 +17,12 @@ a, a #logoFav:active, a:focus, a #logoFav:visited{
 }
 
 #logo span {
-    color: darkorange;
+    color: #FF8C00FF;
     transition: color 0.3s;
 }
 
 #logo:hover {
-    color:darkorange;
+    color:#FF8C00FF;
 }
 
 #logo:hover span{
@@ -30,7 +30,7 @@ a, a #logoFav:active, a:focus, a #logoFav:visited{
 }
 
 #logoFav {
-    color: darkorange;
+    color: #FF8C00FF;
     margin: 0 0 0 26px;
 }
 
@@ -44,7 +44,7 @@ a, a #logoFav:active, a:focus, a #logoFav:visited{
 }
 
 #logoFav:hover span{
-    color: darkorange;
+    color: #FF8C00FF;
 }
 
 @media (hover: none) {
@@ -54,11 +54,11 @@ a, a #logoFav:active, a:focus, a #logoFav:visited{
     }
 
     #logo:hover span{
-        color: darkorange;
+        color: #FF8C00FF;
     }
 
     #logoFav:hover {
-        color:darkorange;
+        color:#FF8C00FF;
     }
 
     #logoFav:hover span{
@@ -76,16 +76,18 @@ a, a #logoFav:active, a:focus, a #logoFav:visited{
 }
 
 .favButton {
+    font-family: NotoSansJP, sans-serif;
     background-color: transparent;
     color: #FF8C00FF;
     font-size: 37px;
     border: none;
     cursor: pointer;
     transition: color 0.3s, opacity 0.3s;
+
 }
 
 .favButton:focus {
-    color: darkorange;
+    color: #FF8C00FF;
 }
 
 .favButton:hover {

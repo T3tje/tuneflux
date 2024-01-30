@@ -34,6 +34,7 @@ li {
     padding: 0 5px;
     font-size: 22px;
     transition: color 0.3s, transform 0.3s;
+    font-family: NotoSansJP, sans-serif;
 }
 
 .heartButton:hover {
@@ -49,13 +50,14 @@ li {
 
 .heartButtonForFavorite {
     background-color: transparent;
-    color: darkorange;
+    color: #FF8C00FF;
     cursor: pointer;
     box-shadow: none;
     border: none;
     padding: 0 5px;
     font-size: 22px;
     transition: color 0.3s, transform 0.3s;
+    font-family: NotoSansJP, sans-serif;
 }
 
 .heartButtonForFavorite:hover {
