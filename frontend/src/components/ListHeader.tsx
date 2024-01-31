@@ -9,6 +9,7 @@ import { functions } from "../assets/functions.ts";
 import RadioStation from "../models/RadioStation.ts";
 import NullableAppUser from "../models/NullableAppUser.ts";
 import FilterSort from "./FilterSort.tsx";
+import {useLocation} from "react-router-dom";
 
 // Typendefinition für die Props der ListHeader-Komponente
 type ListHeaderProps = {
@@ -29,6 +30,7 @@ export default function ListHeader(props: Readonly<ListHeaderProps>) {
     // Zustände für die ListHeader-Komponente
     const [searchOpen, setSearchOpen] = useState(true);
     const inputRef = useRef<HTMLInputElement | null>(null);
+    const location = useLocation();
 
     // Effekt für das Fokussieren des Suchfelds bei Öffnen
     useEffect(() => {
@@ -98,15 +100,20 @@ export default function ListHeader(props: Readonly<ListHeaderProps>) {
     return (
         <div id="listHeaderDiv">
             {/* Text für den Filter- und Sortierbereich */}
-            <FilterSort
-                setSelectedCountry={props.setSelectedCountry}
-                selectedCountry={props.selectedCountry}
-                searchInput={props.searchInput}
-                listAmountNumber={props.listAmountNumber}
-                setList={props.setList}
-                setSearchDone={props.setSearchDone}
+            <div
+                className={location.pathname === "/favorites" ? "filterSortOut" : "filterSortVisible"}
+            >
+                <FilterSort
+                    setSelectedCountry={props.setSelectedCountry}
+                    selectedCountry={props.selectedCountry}
+                    searchInput={props.searchInput}
+                    listAmountNumber={props.listAmountNumber}
+                    setList={props.setList}
+                    setSearchDone={props.setSearchDone}
 
-            />
+                />
+            </div>
+
             {/* Bedingte Anzeige des Suchfelds oder Lupen buttons */}
             {searchOpen ?
                 <div className="searchInputOuterDiv">

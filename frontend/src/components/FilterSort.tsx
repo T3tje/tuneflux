@@ -12,22 +12,37 @@ type FilterSortProps = {
     setSearchDone: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
-export default function FilterSort(props: FilterSortProps) {
+export default function FilterSort(props: Readonly<FilterSortProps>) {
     const [filterOpen, setFilterOpen] = useState<boolean>(false);
 
-    const countryList = [  "Germany",
+    const countryList = [
+        "Argentina",
+        "Australia",
         "Austria",
-        "Switzerland",
-        "USA",
+        "Brazil",
+        "Canada",
+        "China",
+        "Germany",
+        "Greece",
         "India",
-        "Spain",
         "Italy",
-        "Sweden",
-        "Turkey",
+        "Japan",
+        "Mexico",
+        "Russia",
         "South Africa",
+        "Spain",
+        "Sweden",
+        "Switzerland",
+        "The Netherlands",
+        "The Philippines",
+        "Turkey",
+        "UK",
+        "USA"
     ]
+
     const toggleOpen = () => {
         setFilterOpen(!filterOpen);
+        props.setSelectedCountry("")
     };
 
     const handleFilterClick = () =>  {
@@ -36,6 +51,28 @@ export default function FilterSort(props: FilterSortProps) {
 
         if (props.selectedCountry === "USA") {
             selectedCountry = "The United States Of America"
+            functions.fetchData(
+                props.searchInput,
+                props.listAmountNumber,
+                props.setList,
+                props.setSearchDone,
+                selectedCountry
+            );
+        }
+
+        if (props.selectedCountry === "UK") {
+            selectedCountry = "The United Kingdom Of Great Britain And Northern Ireland"
+            functions.fetchData(
+                props.searchInput,
+                props.listAmountNumber,
+                props.setList,
+                props.setSearchDone,
+                selectedCountry
+            );
+        }
+
+        if (props.selectedCountry === "Russia") {
+            selectedCountry = "TThe Russian Federation"
             functions.fetchData(
                 props.searchInput,
                 props.listAmountNumber,
@@ -54,7 +91,19 @@ export default function FilterSort(props: FilterSortProps) {
             props.setSearchDone,
             selectedCountry
         );
+        setFilterOpen(!filterOpen);
     };
+
+    const handleResetButton = () => {
+        props.setSelectedCountry("")
+        functions.fetchData(
+            props.searchInput,
+            props.listAmountNumber,
+            props.setList,
+            props.setSearchDone,
+            ""
+        );
+    }
 
     const handleCountryButtonClick = (country: string) => {
         const newCountry =
@@ -64,10 +113,17 @@ export default function FilterSort(props: FilterSortProps) {
 
     return (
         <>
-            <div onClick={toggleOpen} className="filterTopic">
-                Filter <span>/</span> Sort
+            <div className="filterTopLeftDiv">
+                <button onClick={toggleOpen} className="filterTopic">
+                    Filter <span>/</span> Sort
+                </button>
+                {
+                    props.selectedCountry !== "" ?
+                        <button className="delFilterButton fade-button" onClick={handleResetButton}>X</button> :
+                        null
+                }
             </div>
-            <div
+                <div
                 className={
                     filterOpen
                         ? "filterFensterOpen filterFenster"
@@ -83,6 +139,7 @@ export default function FilterSort(props: FilterSortProps) {
                         <span>x</span>
                     </button>
                 </div>
+                <p className="filterByTopic">by country</p>
                 <div className="countryButtons">
                     <button
                         className={`countryButton ${
@@ -106,9 +163,15 @@ export default function FilterSort(props: FilterSortProps) {
                         </button>
                     ))}
                 </div>
-                <button className="filterButton" onClick={handleFilterClick}>
-                    Filtern
-                </button>
+                <div className="filterFensterFooter">
+                    <button onClick={handleResetButton} className="filterButton">
+                        reset
+                    </button>
+                    <button className="filterButton" onClick={handleFilterClick}>
+                        filter
+                    </button>
+                </div>
+
             </div>
         </>
     );

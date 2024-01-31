@@ -83,7 +83,6 @@ a, a #logoFav:active, a:focus, a #logoFav:visited{
     border: none;
     cursor: pointer;
     transition: color 0.3s, opacity 0.3s;
-
 }
 
 .favButton:focus {
@@ -122,8 +121,9 @@ a, a #logoFav:active, a:focus, a #logoFav:visited{
     transition: opacity 0.5s;
 }
 
-
-
+.filterSortOut {
+    visibility: hidden;
+}
 
 
 

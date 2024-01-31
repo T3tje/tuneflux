@@ -61,8 +61,8 @@ public class RadioService {
                 .queryParam("order", order)                         // 'order' added to the URL
                 .queryParam("offset", offset)                       // 'offset' added to the URL
                 .queryParam("tagList", tagList)                     // 'tagList' added to the URL
-                .queryParam("name", name)                           // 'name' added to the URL
-                .queryParam("country", country.replace(" ", "+"))                    // 'country' added to the URL
+                .queryParam("name", name.replace(" ", "+"))  // 'name' added to the URL - API erkennt + als Leerzeichen
+                .queryParam("country", country.replace(" ", "+"))  // 'country' added to the URL - API erkennt + als Leerzeichen
                 .queryParam("hidebroken", true);               // 'hidebroken' added to the URL
 
         // Retrieve the constructed URL string
