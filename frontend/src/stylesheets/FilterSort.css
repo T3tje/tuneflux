@@ -4,13 +4,13 @@
     flex-direction: row;
     align-items: center;
     justify-content: flex-start;
-    width: 130px;
+    width: 50px;
 }
 
 .filterTopic {
     cursor: pointer;
     color: #636363;
-    font-size: 16px;
+    font-size: 20px;
     transition: color 0.3s;
     background-color: #000000;
     border: none;
@@ -21,7 +21,7 @@
 }
 
 .filterTopic:hover {
-    color: #FF8C00FF;
+    color: #ffffff;
 
 }
 
@@ -29,7 +29,7 @@
 @media (hover: none) {
     /* :hover-Stile deaktivieren und zu den Standardstilen zurückkehren */
     .filterTopic:hover {
-        color: #636363;
+        color: #FF8C00FF;
     }
 }
 
@@ -173,7 +173,7 @@
     border: none;
     color: #ff8c00ff;
     cursor: pointer;
-    font-size: 18px;
+    font-size: 16px;
     padding: 0;
     position: relative;
     right: 5px;
@@ -183,7 +183,6 @@
 
 .fade-button {
     padding: 10px 20px;
-    font-size: 16px;
     cursor: pointer;
     opacity: 1;
     transition: opacity 1s;

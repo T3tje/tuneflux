@@ -99,10 +99,10 @@ export default function FilterSort(props: Readonly<FilterSortProps>) {
         <>
             <div className="filterTopLeftDiv">
                 <button onClick={toggleOpen} className="filterTopic">
-                    Filter <span>/</span> Sort
+                    Filter
                 </button>
                 {
-                    props.selectedCountry !== "" ?
+                    props.selectedCountry !== "" || props.selectedGenre !== "" || props.selectedSort !== "votes" ? //X Button nur anzeigen, wenn kein Filter gesetzt
                         <button className="delFilterButton fade-button" onClick={handleResetButton}>X</button> :
                         null
                 }

@@ -36,12 +36,6 @@ export default function ListHeader(props: Readonly<ListHeaderProps>) {
     const inputRef = useRef<HTMLInputElement | null>(null);
     const location = useLocation();
 
-    // Effekt für das Fokussieren des Suchfelds bei Öffnen
-    useEffect(() => {
-        if (searchOpen && inputRef.current) {
-            inputRef.current.focus();
-        }
-    }, [searchOpen]);
 
     //Fast filter if in Fav list
     useEffect(() => {
