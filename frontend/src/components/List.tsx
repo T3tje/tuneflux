@@ -33,6 +33,10 @@ type ListProps = {
     fromFavList: boolean,
     setSelectedCountry: React.Dispatch<SetStateAction<string>>,
     selectedCountry: string,
+    selectedGenre: string,
+    setSelectedGenre: React.Dispatch<SetStateAction<string>>,
+    selectedSort:string,
+    setSelectedSort: React.Dispatch<SetStateAction<string>>
 };
 
 // Hauptfunktion für die List-Komponente
@@ -67,6 +71,10 @@ export default function List(props: Readonly<ListProps>) {
                         setSelectedCountry={props.setSelectedCountry}
                         selectedCountry={props.selectedCountry}
                         listAmountNumber={props.listAmountNumber}
+                        selectedGenre={props.selectedGenre}
+                        setSelectedGenre={props.setSelectedGenre}
+                        selectedSort={props.selectedSort}
+                        setSelectedSort={props.setSelectedSort}
                     />
                     {props.list.length === 0 ? (
                         // Meldung, wenn keine Radiostationen gefunden wurden
@@ -100,7 +108,9 @@ export default function List(props: Readonly<ListProps>) {
                                             props.setList,
                                             props.setSearchDone,
                                             props.fromFavList,
-                                            props.selectedCountry
+                                            props.selectedCountry,
+                                            props.selectedGenre,
+                                            props.selectedSort
                                         )
                                     }>
                                         ➧

@@ -29,13 +29,13 @@ public class RadioController {
             @RequestParam(defaultValue = "true") String reverse,    // Standard-Reihenfolge ist absteigend (true)
             @RequestParam(defaultValue = "votes") String order,      // Standard-Sortierung ist nach Stimmen (votes)
             @RequestParam(defaultValue = "0") int offset,            // Standard-Offset ist 0
-            @RequestParam(defaultValue = "") String tagList,         // Standard-Tag-Liste ist leer
+            @RequestParam(defaultValue = "") String tag,         // Standard-Tag-Liste ist leer
             @RequestParam(defaultValue = "") String name,            // Standard-Name ist leer
             @RequestParam(defaultValue = "") String country         // Standard-Land ist leer
     ) {
 
         // Aufruf des RadioService mit der Requestparametern für den Zusammenbau der Url
-        return radioService.getRadioStations(limit, reverse, order, offset, tagList, name, country);
+        return radioService.getRadioStations(limit, reverse, order, offset, tag, name, country);
     }
 
     @PostMapping("/radio")

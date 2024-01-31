@@ -52,7 +52,7 @@ public class RadioService {
     private String radioBaseUrl;
 
     //Function for Radio Api Request
-    public List<RadioStationDTO> getRadioStations(int limit, String reverse, String order, int offset, String tagList, String name, String country) {
+    public List<RadioStationDTO> getRadioStations(int limit, String reverse, String order, int offset, String tag, String name, String country) {
 
         // Use UriComponentsBuilder for secure and clean URL composition
         UriComponentsBuilder builder = UriComponentsBuilder.fromUriString(radioBaseUrl + "/stations/search")
@@ -60,7 +60,7 @@ public class RadioService {
                 .queryParam("reverse", reverse)                     // 'reverse' added to the URL
                 .queryParam("order", order)                         // 'order' added to the URL
                 .queryParam("offset", offset)                       // 'offset' added to the URL
-                .queryParam("tagList", tagList)                     // 'tagList' added to the URL
+                .queryParam("tag", tag)                     // 'tagList' added to the URL
                 .queryParam("name", name.replace(" ", "+"))  // 'name' added to the URL - API erkennt + als Leerzeichen
                 .queryParam("country", country.replace(" ", "+"))  // 'country' added to the URL - API erkennt + als Leerzeichen
                 .queryParam("hidebroken", true);               // 'hidebroken' added to the URL

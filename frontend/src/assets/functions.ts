@@ -11,10 +11,12 @@ const fetchData = async (
     numberOfStations: number,
     setList: React.Dispatch<React.SetStateAction<RadioStation[]>>,
     setSearchDone: React.Dispatch<React.SetStateAction<boolean>>,
-    selectedCountry: string
+    selectedCountry: string,
+    selectedGenre:string,
+    selectedSort:string
     ) => {
     try {
-        const response = await axios.get(`/api/radio?limit=${numberOfStations}&reverse=true&order=votes&offset=0&tagList=&name=${actualSearchInput}&country=${selectedCountry}`);
+        const response = await axios.get(`/api/radio?limit=${numberOfStations}&reverse=true&order=${selectedSort}&offset=0&tag=${selectedGenre}&name=${actualSearchInput}&country=${selectedCountry}`);
         if (response.status === 200) {
 
             setList(response.data);
@@ -34,13 +36,15 @@ const increaseList = (
     setList: React.Dispatch<SetStateAction<RadioStation[]>>,
     setSearchDone: React.Dispatch<SetStateAction<boolean>>,
     fromFavList:boolean,
-    selectedCountry: string
+    selectedCountry: string,
+    selectedGenre:string,
+    selectedSort:string
 ) => {
     const increaseBy = 20;
     const newNumberOfStations = listAmountNumber + increaseBy;
     setListAmountNumber(newNumberOfStations);
     if (!fromFavList) {
-        fetchData(searchInput, newNumberOfStations, setList, setSearchDone, selectedCountry)
+        fetchData(searchInput, newNumberOfStations, setList, setSearchDone, selectedCountry, selectedGenre, selectedSort)
     }
 
 };

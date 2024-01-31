@@ -51,6 +51,7 @@
     opacity: 0;
     animation: fadeInInput 0.3s forwards;
     border: solid 2px #000000;
+    z-index: 1;
 }
 
 .searchInputOuterDiv:hover {
