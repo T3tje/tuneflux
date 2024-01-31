@@ -138,7 +138,7 @@ export default function AudioPlayer(props: Readonly<AudioPlayerProps>) {
                 </div>
 
                 {/* Abspiel-Button oder Pause-Button, abhängig vom Abspielstatus */}
-                <div className="audioPlayerControlsContainer">
+                <div className="audioPlayerControlsContainerMitte">
                     {
                         props.mainPlayLoadingSpinnerVisible ?
                             <div className="loading-spinner"></div> :

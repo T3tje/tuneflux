@@ -3,6 +3,11 @@
     src: url('../../public/Prompt-Light.ttf') format('truetype');
 }
 
+@font-face {
+    font-family: 'NotoSansJP';
+    src: url('../../public/NotoSansJP.ttf') format('truetype');
+}
+
 html {
     background-color: #000000;
     color: #ffffff;

@@ -11,9 +11,10 @@ const fetchData = async (
     numberOfStations: number,
     setList: React.Dispatch<React.SetStateAction<RadioStation[]>>,
     setSearchDone: React.Dispatch<React.SetStateAction<boolean>>,
+    selectedCountry: string
     ) => {
     try {
-        const response = await axios.get(`/api/radio?limit=${numberOfStations}&reverse=true&order=votes&offset=0&tagList=&name=${actualSearchInput}&country=`);
+        const response = await axios.get(`/api/radio?limit=${numberOfStations}&reverse=true&order=votes&offset=0&tagList=&name=${actualSearchInput}&country=${selectedCountry}`);
         if (response.status === 200) {
 
             setList(response.data);
@@ -24,6 +25,7 @@ const fetchData = async (
     }
 };
 
+
 // Funktion zum Erhöhen der Anzahl der angezeigten Radiostationen
 const increaseList = (
     listAmountNumber:number,
@@ -31,13 +33,14 @@ const increaseList = (
     searchInput: string,
     setList: React.Dispatch<SetStateAction<RadioStation[]>>,
     setSearchDone: React.Dispatch<SetStateAction<boolean>>,
-    fromFavList:boolean
+    fromFavList:boolean,
+    selectedCountry: string
 ) => {
     const increaseBy = 20;
     const newNumberOfStations = listAmountNumber + increaseBy;
     setListAmountNumber(newNumberOfStations);
     if (!fromFavList) {
-        fetchData(searchInput, newNumberOfStations, setList, setSearchDone)
+        fetchData(searchInput, newNumberOfStations, setList, setSearchDone, selectedCountry)
     }
 
 };

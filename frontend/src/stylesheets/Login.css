@@ -8,7 +8,7 @@
 
 .loginTypeButton {
     background-color: #ffffff;
-    border: darkorange solid 2px;
+    border: #FF8C00FF solid 2px;
     border-radius: 25px;
     font-size: 16px;
     padding: 8px 16px;
@@ -16,7 +16,7 @@
 }
 
 .loginTypeButton:hover {
-    background-color: darkorange;
+    background-color: #FF8C00FF;
     color: #ffffff;
     border-color: #ffffff;
 }
@@ -26,6 +26,6 @@
     .loginTypeButton:hover {
         background-color: #ffffff;
         color: #000000;
-        border-color: darkorange;
+        border-color: #FF8C00FF;
     }
 }
