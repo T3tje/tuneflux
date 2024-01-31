@@ -103,7 +103,7 @@ export default function FilterSort(props: Readonly<FilterSortProps>) {
                 </button>
                 {
                     props.selectedCountry !== "" || props.selectedGenre !== "" || props.selectedSort !== "votes" ? //X Button nur anzeigen, wenn kein Filter gesetzt
-                        <button className="delFilterButton fade-button" onClick={handleResetButton}>X</button> :
+                        <button className="delFilterButton fade-button" onClick={handleResetButton}>x</button> :
                         null
                 }
             </div>
