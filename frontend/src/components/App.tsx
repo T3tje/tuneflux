@@ -33,10 +33,20 @@ function App() {
     const [searchMainInput, setSearchMainInput] = useState<string>("");
     const [searchFavInput, setSearchFavInput] = useState<string>("");
     const [selectedCountry, setSelectedCountry] = useState<string>("")
+    const [selectedGenre, setSelectedGenre] = useState<string>("")
+    const [selectedSort, setSelectedSort] = useState<string>("votes")
 
     useEffect(() => {
         functions.getMe(setAppUser);
-        functions.fetchData("", 20, setMainList, setSearchMainListDone, selectedCountry) // Abfrage für Main list
+        functions.fetchData(    // Abfrage für Main list
+            "",
+            20,
+            setMainList,
+            setSearchMainListDone,
+            selectedCountry,
+            selectedGenre,
+            selectedSort
+        )
     }, [])
 
     useEffect(() => {
@@ -75,6 +85,10 @@ function App() {
                             fromFavList={false}
                             setSelectedCountry={setSelectedCountry}
                             selectedCountry={selectedCountry}
+                            selectedGenre={selectedGenre}
+                            setSelectedGenre={setSelectedGenre}
+                            selectedSort={selectedSort}
+                            setSelectedSort={setSelectedSort}
                         />}
                 />
 
@@ -102,6 +116,10 @@ function App() {
                             fromFavList={true}
                             setSelectedCountry={setSelectedCountry}
                             selectedCountry={selectedCountry}
+                            selectedGenre={selectedGenre}
+                            setSelectedGenre={setSelectedGenre}
+                            selectedSort={selectedSort}
+                            setSelectedSort={setSelectedSort}
                         />}
                 />
                 {/* LOGIN → Statt List-Komponente, falls nicht eingeloggt */}

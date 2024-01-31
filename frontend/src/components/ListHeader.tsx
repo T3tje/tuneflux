@@ -23,6 +23,10 @@ type ListHeaderProps = {
     setSelectedCountry:React.Dispatch<SetStateAction<string>>
     selectedCountry:string,
     listAmountNumber:number,
+    selectedGenre: string,
+    setSelectedGenre:React.Dispatch<SetStateAction<string>>,
+    selectedSort:string,
+    setSelectedSort:React.Dispatch<SetStateAction<string>>
 }
 
 // Hauptfunktion für die ListHeader-Komponente
@@ -72,7 +76,15 @@ export default function ListHeader(props: Readonly<ListHeaderProps>) {
         props.setSearchInput("");
         if (!props.fromFavList) {
             // if not in FavList fetchData from api
-            functions.fetchData("", 20, props.setList, props.setSearchDone, "");
+            functions.fetchData(
+                "",
+                20,
+                props.setList,
+                props.setSearchDone,
+                "",
+                props.selectedGenre,
+                props.selectedSort
+            );
         } else {
             // if in Fav List fill List with all Users Favorit stations
             props.setList(props.appUser ? props.appUser.favoriteRadioStations : []) // empty list when appUser is not set
@@ -85,7 +97,15 @@ export default function ListHeader(props: Readonly<ListHeaderProps>) {
         if (event.key === "Enter") {
             if (!props.fromFavList) {
                 // If not in the favorites list, fetch data
-                functions.fetchData(props.searchInput, 20, props.setList, props.setSearchDone, props.selectedCountry);
+                functions.fetchData(
+                    props.searchInput,
+                    20,
+                    props.setList,
+                    props.setSearchDone,
+                    props.selectedCountry,
+                    props.selectedGenre,
+                    props.selectedSort
+                );
             } else {
                 // Otherwise, filter the user's favorites and set it to the favList state
                 fastSearch();
@@ -110,6 +130,10 @@ export default function ListHeader(props: Readonly<ListHeaderProps>) {
                     listAmountNumber={props.listAmountNumber}
                     setList={props.setList}
                     setSearchDone={props.setSearchDone}
+                    selectedGenre={props.selectedGenre}
+                    setSelectedGenre={props.setSelectedGenre}
+                    selectedSort={props.selectedSort}
+                    setSelectedSort={props.setSelectedSort}
 
                 />
             </div>
@@ -121,7 +145,7 @@ export default function ListHeader(props: Readonly<ListHeaderProps>) {
                         type="text"
                         onChange={handleSearchInput}
                         value={props.searchInput}
-                        placeholder="Search station by name..."
+                        placeholder="Search station..."
                         onKeyDown={handleKeyDown}
                         ref={inputRef}
                     />
