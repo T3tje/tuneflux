@@ -30,7 +30,9 @@ type ListProps = {
     listTopic:string,
     appUser: AppUser | null | undefined,
     setAppUser:React.Dispatch<SetStateAction<AppUser | undefined | null>>,
-    fromFavList: boolean
+    fromFavList: boolean,
+    setSelectedCountry: React.Dispatch<SetStateAction<string>>,
+    selectedCountry: string,
 };
 
 // Hauptfunktion für die List-Komponente
@@ -62,6 +64,9 @@ export default function List(props: Readonly<ListProps>) {
                         setSearchDone={props.setSearchDone}
                         fromFavList={props.fromFavList}
                         appUser={props.appUser}
+                        setSelectedCountry={props.setSelectedCountry}
+                        selectedCountry={props.selectedCountry}
+                        listAmountNumber={props.listAmountNumber}
                     />
                     {props.list.length === 0 ? (
                         // Meldung, wenn keine Radiostationen gefunden wurden
@@ -94,7 +99,8 @@ export default function List(props: Readonly<ListProps>) {
                                             props.searchInput,
                                             props.setList,
                                             props.setSearchDone,
-                                            props.fromFavList
+                                            props.fromFavList,
+                                            props.selectedCountry
                                         )
                                     }>
                                         ➧

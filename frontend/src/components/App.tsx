@@ -31,11 +31,12 @@ function App() {
     const [mainListAmountNumber, setMainListAmountNumber] = useState<number>(20);
     const [favListAmountNumber, setFavListAmountNumber] = useState<number>(20);
     const [searchMainInput, setSearchMainInput] = useState<string>("");
-    const [searchFavInput, setSearchFavInput] = useState<string>("")
+    const [searchFavInput, setSearchFavInput] = useState<string>("");
+    const [selectedCountry, setSelectedCountry] = useState<string>("")
 
     useEffect(() => {
         functions.getMe(setAppUser);
-        functions.fetchData("", 20, setMainList, setSearchMainListDone) // Abfrage für Main list
+        functions.fetchData("", 20, setMainList, setSearchMainListDone, selectedCountry) // Abfrage für Main list
     }, [])
 
     useEffect(() => {
@@ -72,6 +73,8 @@ function App() {
                             appUser={appUser}
                             setAppUser={setAppUser}
                             fromFavList={false}
+                            setSelectedCountry={setSelectedCountry}
+                            selectedCountry={selectedCountry}
                         />}
                 />
 
@@ -97,6 +100,8 @@ function App() {
                             appUser={appUser}
                             setAppUser={setAppUser}
                             fromFavList={true}
+                            setSelectedCountry={setSelectedCountry}
+                            selectedCountry={selectedCountry}
                         />}
                 />
                 {/* LOGIN → Statt List-Komponente, falls nicht eingeloggt */}

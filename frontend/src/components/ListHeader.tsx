@@ -3,11 +3,12 @@
 // ----------------------------------
 
 // Import von Modulen und Ressourcen
-import React, { useEffect, useRef, useState } from "react";
+import React, {SetStateAction, useEffect, useRef, useState} from "react";
 import "../stylesheets/ListHeader.css";
 import { functions } from "../assets/functions.ts";
 import RadioStation from "../models/RadioStation.ts";
 import NullableAppUser from "../models/NullableAppUser.ts";
+import FilterSort from "./FilterSort.tsx";
 
 // Typendefinition für die Props der ListHeader-Komponente
 type ListHeaderProps = {
@@ -17,7 +18,10 @@ type ListHeaderProps = {
     setListAmountNumber: React.Dispatch<React.SetStateAction<number>>;
     setList: React.Dispatch<React.SetStateAction<RadioStation[]>>;
     setSearchDone: React.Dispatch<React.SetStateAction<boolean>>;
-    fromFavList: boolean
+    fromFavList: boolean,
+    setSelectedCountry:React.Dispatch<SetStateAction<string>>
+    selectedCountry:string,
+    listAmountNumber:number,
 }
 
 // Hauptfunktion für die ListHeader-Komponente
@@ -66,7 +70,7 @@ export default function ListHeader(props: Readonly<ListHeaderProps>) {
         props.setSearchInput("");
         if (!props.fromFavList) {
             // if not in FavList fetchData from api
-            functions.fetchData("", 20, props.setList, props.setSearchDone);
+            functions.fetchData("", 20, props.setList, props.setSearchDone, "");
         } else {
             // if in Fav List fill List with all Users Favorit stations
             props.setList(props.appUser ? props.appUser.favoriteRadioStations : []) // empty list when appUser is not set
@@ -79,7 +83,7 @@ export default function ListHeader(props: Readonly<ListHeaderProps>) {
         if (event.key === "Enter") {
             if (!props.fromFavList) {
                 // If not in the favorites list, fetch data
-                functions.fetchData(props.searchInput, 20, props.setList, props.setSearchDone);
+                functions.fetchData(props.searchInput, 20, props.setList, props.setSearchDone, props.selectedCountry);
             } else {
                 // Otherwise, filter the user's favorites and set it to the favList state
                 fastSearch();
@@ -94,7 +98,15 @@ export default function ListHeader(props: Readonly<ListHeaderProps>) {
     return (
         <div id="listHeaderDiv">
             {/* Text für den Filter- und Sortierbereich */}
-            <div className="filterDiv">Filter <span>/</span> Sort</div>
+            <FilterSort
+                setSelectedCountry={props.setSelectedCountry}
+                selectedCountry={props.selectedCountry}
+                searchInput={props.searchInput}
+                listAmountNumber={props.listAmountNumber}
+                setList={props.setList}
+                setSearchDone={props.setSearchDone}
+
+            />
             {/* Bedingte Anzeige des Suchfelds oder Lupen buttons */}
             {searchOpen ?
                 <div className="searchInputOuterDiv">

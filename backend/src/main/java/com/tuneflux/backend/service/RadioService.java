@@ -62,7 +62,7 @@ public class RadioService {
                 .queryParam("offset", offset)                       // 'offset' added to the URL
                 .queryParam("tagList", tagList)                     // 'tagList' added to the URL
                 .queryParam("name", name)                           // 'name' added to the URL
-                .queryParam("country", country)                     // 'country' added to the URL
+                .queryParam("country", country.replace(" ", "+"))                    // 'country' added to the URL
                 .queryParam("hidebroken", true);               // 'hidebroken' added to the URL
 
         // Retrieve the constructed URL string
