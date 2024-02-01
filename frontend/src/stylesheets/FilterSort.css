@@ -21,7 +21,7 @@
 }
 
 .filterTopic:hover {
-    color: #ffffff;
+    color: #FF8C00FF;
 
 }
 
@@ -144,16 +144,16 @@
     cursor: pointer;
     background-color: #000000;
     border-radius: 5px;
-    border: solid 1px #FF8C00FF;
+    border: solid 1px #ffffff;
     color: #ffffff;
     margin: 2px;
     padding: 4px;
 }
 
 .countryButton:hover, .countryButton.selected {
-    background-color: #FF8C00FF;
-    color: #000000;
-    border-color: #ffffff;
+
+    color: #FF8C00FF;
+
 }
 
 .countryButtons {
