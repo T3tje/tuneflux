@@ -30,21 +30,21 @@ a, a #logoFav:active, a:focus, a #logoFav:visited{
 }
 
 #logoFav {
-    color: #FF8C00FF;
+    color: #ffffff;
     margin: 0 0 0 26px;
 }
 
 #logoFav span {
-    color: #ffffff;
+    color: #FF8C00FF;
     transition: color 0.3s;
 }
 
 #logoFav:hover {
-    color:#ffffff;
+    color:#FF8C00FF;
 }
 
 #logoFav:hover span{
-    color: #FF8C00FF;
+    color: #ffffff;
 }
 
 @media (hover: none) {
@@ -62,7 +62,7 @@ a, a #logoFav:active, a:focus, a #logoFav:visited{
     }
 
     #logoFav:hover span{
-        color: #ffffff;
+        color: #FF8C00FF;
     }
 }
 

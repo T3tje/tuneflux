@@ -1,0 +1,22 @@
+name: "Restart Docker Container"
+
+on:
+  workflow_dispatch:
+
+jobs:
+  deploy-hetzner:
+    name: Deployment hetzner
+    runs-on: ubuntu-latest
+    needs: push-to-docker-hub
+    steps:
+      - name: Deploy to hetzner
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{secrets.HETZNER_IP}}
+          username: ${{secrets.HETZNER_USERNAME}}
+          password: ${{secrets.HETZNER_PASSWORD}}
+          script: |
+            sudo docker pull ${{ secrets.DOCKERHUB_TAG }}
+            sudo docker stop tuneflux || true
+            sudo docker rm tuneflux || true
+            sudo docker run -d --name tuneflux -e ${{secrets.MONGO_DB_URI}} -e ${{secrets.GITHUB_CLIENT_ID}} -e ${{secrets.GITHUB_CLIENT_SECRET}} -e ${{secrets.BACKEND_URL}} -p 8080:8080 ${{ secrets.DOCKERHUB_TAG }}
