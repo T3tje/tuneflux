@@ -100,8 +100,8 @@ jobs:
           username: ${{secrets.HETZNER_USERNAME}}
           password: ${{secrets.HETZNER_PASSWORD}}
           script: |
-            docker pull ${{ secrets.DOCKERHUB_TAG }}
-            docker stop tuneflux || true
-            docker rm tuneflux || true
-            docker run -d --name tuneflux -e ${{secrets.MONGO_DB_URI}} -e ${{secrets.GHUB_CLIENT_ID}} -e ${{secrets.GHUB_CLIENT_SECRET}} -e ${{secrets.BACKEND_URL}} -p 8080:8080 ${{ secrets.DOCKERHUB_TAG }} 
+            sudo -S ${{secrets.HETZNER_PASSWORD}} docker pull ${{ secrets.DOCKERHUB_TAG }}
+            sudo -S ${{secrets.HETZNER_PASSWORD}} docker stop tuneflux || true
+            sudo -S ${{secrets.HETZNER_PASSWORD}} docker rm tuneflux || true
+            sudo -S ${{secrets.HETZNER_PASSWORD}} docker run -d --name tuneflux -e ${{secrets.MONGO_DB_URI}} -e ${{secrets.GHUB_CLIENT_ID}} -e ${{secrets.GHUB_CLIENT_SECRET}} -e ${{secrets.BACKEND_URL}} -p 8080:8080 ${{ secrets.DOCKERHUB_TAG }} 
             
