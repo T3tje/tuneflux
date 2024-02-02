@@ -12,7 +12,6 @@ ul,ol {
     align-items: center;
     width: 100%;
     max-width: 700px;
-    overflow-y: scroll;
 }
 
 .listTopic {
