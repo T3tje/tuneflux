@@ -79,7 +79,7 @@ export default function List(props: Readonly<ListProps>) {
                     {props.list.length === 0 ? (
                         // Meldung, wenn keine Radiostationen gefunden wurden
                         <div className="noStationsFoundMsgDiv">
-                            <p>No radio stations were found with the selected search options.</p>
+                            <p>No radio stations were found with the selected search options {location.pathname === "/favorites" ? "or you dont have added a radiostation to your favorites. Please go back to MainList and add at least one radiostation" : null}. </p>
                         </div>
                     ) : (
                         // Anzeige der Radiostationen und Schaltfläche zum Laden weiterer Stationen
