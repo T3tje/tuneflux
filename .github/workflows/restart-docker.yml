@@ -17,4 +17,4 @@ jobs:
             docker pull ${{ secrets.DOCKERHUB_TAG }}
             docker stop tuneflux || true
             docker rm tuneflux || true
-            docker run -d --name tuneflux -e ${{secrets.MONGO_DB_URI}} -e ${{secrets.GITHUB_CLIENT_ID}} -e ${{secrets.GITHUB_CLIENT_SECRET}} -e ${{secrets.BACKEND_URL}} -p 8080:8080 ${{ secrets.DOCKERHUB_TAG }}
+            docker run -d --name tuneflux --network=tuneflux -e MONGO_DB_URI=${{secrets.MONGO_DB_URI}} -e GITHUB_CLIENT_ID=${{secrets.GHUB_CLIENT_ID}} -e GITHUB_CLIENT_SECRET=${{secrets.GHUB_CLIENT_SECRET}} -e BACKEND_URL=${{secrets.BACKEND_URL}} -p 8080:8080 ${{ secrets.DOCKERHUB_TAG }}
